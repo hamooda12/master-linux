@@ -1,0 +1,204 @@
+# Linux Cheat Sheet
+
+> Personal Linux reference built during my Linux Mastery Journey.
+>
+> Last Updated: Lesson 2 - Navigation & Paths
+
+---
+
+# Navigation
+
+| Command | Description | Example |
+|----------|-------------|---------|
+| `pwd` | Print the current working directory | `pwd` |
+| `cd <dir>` | Change directory | `cd Documents` |
+| `cd ..` | Go to the parent directory | `cd ..` |
+| `cd ~` | Go to the home directory | `cd ~` |
+| `cd` | Same as `cd ~` | `cd` |
+| `cd /path` | Navigate using an absolute path | `cd /home/hamad` |
+
+---
+
+# Listing Files
+
+| Command | Description |
+|----------|-------------|
+| `ls` | List directory contents |
+| `ls -a` | Show hidden files |
+| `ls -l` | Long listing format |
+| `ls -la` | Long listing + hidden files |
+
+---
+
+# File & Directory Creation
+
+| Command | Description |
+|----------|-------------|
+| `mkdir folder` | Create a directory |
+| `mkdir dir1 dir2` | Create multiple directories |
+| `touch file.txt` | Create an empty file |
+| `tree` | Display the directory tree |
+
+---
+
+# File & Directory Removal
+
+| Command | Description |
+|----------|-------------|
+| `rm file.txt` | Remove a file |
+| `rmdir folder` | Remove an empty directory |
+| `rm -r folder` | Remove a directory recursively |
+| `rm -rf folder` | Force remove recursively (**Dangerous**) |
+
+---
+
+# Path Symbols
+
+| Symbol | Meaning |
+|--------|---------|
+| `/` | Root directory |
+| `~` | Home directory |
+| `.` | Current directory |
+| `..` | Parent directory |
+
+---
+
+# Path Types
+
+## Absolute Path
+
+Starts from the root directory.
+
+Example
+
+```bash
+/home/hamad/linux-practice/projects
+```
+
+---
+
+## Relative Path
+
+Starts from the current directory.
+
+Example
+
+```bash
+projects/project1
+```
+
+---
+
+# Hidden Files
+
+Hidden files start with a dot (`.`).
+
+Examples
+
+```text
+.bashrc
+.profile
+.config
+.ssh
+```
+
+Show hidden files:
+
+```bash
+ls -a
+```
+
+---
+
+# Permission Symbols
+
+| Symbol | Meaning |
+|--------|---------|
+| `r` | Read |
+| `w` | Write |
+| `x` | Execute |
+| `d` | Directory |
+| `-` | Regular file |
+
+Permission layout:
+
+```text
+Owner | Group | Others
+
+rwx | r-x | r-x
+```
+
+---
+
+# Common Workflow
+
+```bash
+pwd
+ls -la
+
+cd ~/linux-practice
+
+mkdir project
+
+cd project
+
+touch README.md
+
+tree
+```
+
+---
+
+# Safety Tips
+
+✅ Use `pwd` before deleting files.
+
+✅ Use `ls` before `rm`.
+
+✅ Prefer `rm` for files.
+
+✅ Prefer `rmdir` for empty directories.
+
+⚠ Never run:
+
+```bash
+rm -rf /
+```
+
+or
+
+```bash
+sudo rm -rf /
+```
+
+unless you intentionally want to destroy the system.
+
+---
+
+# Commands Learned
+
+```text
+pwd
+ls
+ls -a
+ls -l
+ls -la
+cd
+mkdir
+touch
+tree
+rm
+rmdir
+rm -r
+rm -rf
+```
+
+---
+
+# Lesson Progress
+
+- ✅ Lesson 1 — Navigation & Filesystem Basics
+- ✅ Lesson 2 — Paths Deep Dive
+- ⏳ Lesson 3 — File Operations
+- ⏳ Lesson 4 — Wildcards & Searching
+- ⏳ Lesson 5 — File Viewing & Editing
