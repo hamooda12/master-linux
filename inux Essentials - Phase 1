@@ -1,0 +1,463 @@
+# Linux Essentials - Phase 1
+
+This repository contains my hands-on practice while learning Linux fundamentals. The goal is to understand how to navigate the Linux filesystem, create and manage files and directories, and become comfortable working in the terminal.
+
+---
+
+# Lesson 1 - Navigation & Filesystem Basics
+
+## 1. pwd (Print Working Directory)
+
+Displays the absolute path of the current working directory.
+
+### Syntax
+
+```bash
+pwd
+```
+
+### Example
+
+```bash
+/home/hamad/linux-practice
+```
+
+---
+
+## 2. ls
+
+Lists the contents of the current directory.
+
+### Syntax
+
+```bash
+ls
+```
+
+### Example Output
+
+```text
+Documents
+Downloads
+Pictures
+Videos
+```
+
+---
+
+## 3. ls -a
+
+Lists all files, including hidden files.
+
+In Linux, every file or directory whose name starts with a dot (`.`) is considered hidden.
+
+### Syntax
+
+```bash
+ls -a
+```
+
+### Example
+
+```text
+.
+..
+.bashrc
+.profile
+.config
+.ssh
+```
+
+---
+
+## 4. ls -l
+
+Displays detailed information about files and directories.
+
+The output includes:
+
+- File type
+- Permissions
+- Number of links
+- Owner
+- Group
+- File size
+- Last modification date
+- File name
+
+### Syntax
+
+```bash
+ls -l
+```
+
+### Example
+
+```text
+drwxr-xr-x 3 hamad hamad 4096 Jun 30 19:47 Desktop
+```
+
+---
+
+## Understanding the Permission Field
+
+Example:
+
+```text
+drwxr-xr-x
+```
+
+| Symbol | Meaning |
+|---------|----------|
+| d | Directory |
+| r | Read |
+| w | Write |
+| x | Execute |
+
+Permissions are divided into three groups:
+
+```text
+Owner | Group | Others
+```
+
+Example:
+
+```text
+rwx | r-x | r-x
+```
+
+---
+
+## 5. cd (Change Directory)
+
+Changes the current working directory.
+
+### Syntax
+
+```bash
+cd Documents
+```
+
+Move back to the parent directory:
+
+```bash
+cd ..
+```
+
+Go directly to the home directory:
+
+```bash
+cd
+```
+
+or
+
+```bash
+cd ~
+```
+
+---
+
+## 6. mkdir (Make Directory)
+
+Creates a new directory.
+
+### Syntax
+
+```bash
+mkdir projects
+```
+
+Create multiple directories:
+
+```bash
+mkdir scripts logs config
+```
+
+---
+
+## 7. touch
+
+Creates an empty file.
+
+If the file already exists, it updates its last modification timestamp.
+
+### Syntax
+
+```bash
+touch README.md
+```
+
+Create multiple files:
+
+```bash
+touch app.conf notes.txt README.md
+```
+
+---
+
+## 8. tree
+
+Displays the directory structure as a tree.
+
+### Syntax
+
+```bash
+tree
+```
+
+### Example
+
+```text
+.
+├── README.md
+├── app.conf
+├── config
+├── logs
+└── scripts
+```
+
+---
+
+# Lesson 2 - Paths
+
+## Absolute Path
+
+An absolute path always starts from the root directory (`/`).
+
+It works regardless of your current location.
+
+### Example
+
+```bash
+cd /home/hamad/linux-practice/backups
+```
+
+---
+
+## Relative Path
+
+A relative path depends on your current directory.
+
+### Example
+
+If you are in:
+
+```text
+/home/hamad/linux-practice
+```
+
+You can access:
+
+```bash
+cd projects/project1
+```
+
+---
+
+## Special Directory Symbols
+
+### .
+
+Represents the current directory.
+
+```bash
+cd .
+```
+
+Usually used with commands such as:
+
+```bash
+find .
+```
+
+or
+
+```bash
+./script.sh
+```
+
+---
+
+### ..
+
+Represents the parent directory.
+
+Example:
+
+```bash
+cd ..
+```
+
+If you are in:
+
+```text
+/home/hamad/linux-practice/backups
+```
+
+After running:
+
+```bash
+cd ..
+```
+
+You will be in:
+
+```text
+/home/hamad/linux-practice
+```
+
+---
+
+### ~
+
+Represents the current user's home directory.
+
+Example:
+
+```bash
+cd ~
+```
+
+Result:
+
+```text
+/home/hamad
+```
+
+---
+
+# File Deletion
+
+## rm
+
+Removes files.
+
+### Syntax
+
+```bash
+rm filename.txt
+```
+
+Example:
+
+```bash
+rm notes.txt
+```
+
+> **Warning:** Files deleted with `rm` are not moved to the Recycle Bin.
+
+---
+
+## rmdir
+
+Removes an empty directory.
+
+### Syntax
+
+```bash
+rmdir temp
+```
+
+If the directory contains files, Linux will display an error.
+
+---
+
+## rm -r
+
+Removes a directory recursively.
+
+This deletes the directory and everything inside it.
+
+### Example
+
+```bash
+rm -r projects
+```
+
+---
+
+## rm -rf
+
+A very powerful and dangerous command.
+
+### Example
+
+```bash
+rm -rf folder_name
+```
+
+Options:
+
+- `-r` → Recursive
+- `-f` → Force (do not ask for confirmation)
+
+**Use this command carefully.**
+
+---
+
+# Current Practice Workspace
+
+```text
+linux-practice
+├── app.conf
+├── backups
+├── config
+├── logs
+├── projects
+│   └── project1
+├── README.md
+├── scripts
+└── todo.txt
+```
+
+---
+
+# Commands Learned
+
+| Command | Description |
+|----------|-------------|
+| `pwd` | Show the current working directory |
+| `ls` | List directory contents |
+| `ls -a` | Show all files, including hidden files |
+| `ls -l` | Show detailed file information |
+| `cd` | Change the current directory |
+| `mkdir` | Create a directory |
+| `touch` | Create an empty file |
+| `tree` | Display the directory tree |
+| `rm` | Remove a file |
+| `rmdir` | Remove an empty directory |
+| `rm -r` | Remove a directory recursively |
+| `rm -rf` | Force remove a directory and its contents |
+
+---
+
+# Key Concepts Learned
+
+- Linux filesystem hierarchy
+- Home directory (`~`)
+- Current directory (`.`)
+- Parent directory (`..`)
+- Absolute paths
+- Relative paths
+- Hidden files
+- File permissions overview
+- Creating files and directories
+- Safe file and directory deletion
+- Organizing a workspace using the terminal
+
+---
+
+# Skills Acquired
+
+After completing these lessons, I can:
+
+- Navigate the Linux filesystem confidently.
+- Understand where I am in the filesystem.
+- Create and organize directories.
+- Create files from the terminal.
+- Read detailed file information.
+- Understand basic Linux permissions.
+- Use absolute and relative paths correctly.
+- Remove files and directories safely.
+- Visualize directory structures using `tree`.
