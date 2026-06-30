@@ -2,64 +2,126 @@
 
 > Personal Linux reference built during my Linux Mastery Journey.
 >
-> Last Updated: Lesson 2 - Navigation & Paths
+> **Last Updated:** Lesson 4 - File Viewing & Inspection
 
 ---
 
 # Navigation
 
-| Command | Description | Example |
-|----------|-------------|---------|
-| `pwd` | Print the current working directory | `pwd` |
-| `cd <dir>` | Change directory | `cd Documents` |
-| `cd ..` | Go to the parent directory | `cd ..` |
-| `cd ~` | Go to the home directory | `cd ~` |
-| `cd` | Same as `cd ~` | `cd` |
-| `cd /path` | Navigate using an absolute path | `cd /home/hamad` |
+| Command    | Description                         | Example          |
+| ---------- | ----------------------------------- | ---------------- |
+| `pwd`      | Print the current working directory | `pwd`            |
+| `cd <dir>` | Change directory                    | `cd Documents`   |
+| `cd ..`    | Go to the parent directory          | `cd ..`          |
+| `cd ~`     | Go to the home directory            | `cd ~`           |
+| `cd`       | Same as `cd ~`                      | `cd`             |
+| `cd /path` | Navigate using an absolute path     | `cd /home/hamad` |
 
 ---
 
 # Listing Files
 
-| Command | Description |
-|----------|-------------|
-| `ls` | List directory contents |
-| `ls -a` | Show hidden files |
-| `ls -l` | Long listing format |
-| `ls -la` | Long listing + hidden files |
+| Command  | Description                                | Example  |
+| -------- | ------------------------------------------ | -------- |
+| `ls`     | List directory contents                    | `ls`     |
+| `ls -a`  | Show hidden files                          | `ls -a`  |
+| `ls -l`  | Long listing format                        | `ls -l`  |
+| `ls -la` | Long listing format including hidden files | `ls -la` |
 
 ---
 
 # File & Directory Creation
 
-| Command | Description |
-|----------|-------------|
-| `mkdir folder` | Create a directory |
-| `mkdir dir1 dir2` | Create multiple directories |
-| `touch file.txt` | Create an empty file |
-| `tree` | Display the directory tree |
+| Command           | Description                 | Example           |
+| ----------------- | --------------------------- | ----------------- |
+| `mkdir folder`    | Create a directory          | `mkdir project`   |
+| `mkdir dir1 dir2` | Create multiple directories | `mkdir docs logs` |
+| `touch file.txt`  | Create an empty file        | `touch notes.txt` |
+| `tree`            | Display the directory tree  | `tree`            |
 
 ---
 
 # File & Directory Removal
 
-| Command | Description |
-|----------|-------------|
-| `rm file.txt` | Remove a file |
-| `rmdir folder` | Remove an empty directory |
-| `rm -r folder` | Remove a directory recursively |
-| `rm -rf folder` | Force remove recursively (**Dangerous**) |
+| Command         | Description                              | Example            |
+| --------------- | ---------------------------------------- | ------------------ |
+| `rm file.txt`   | Remove a file                            | `rm notes.txt`     |
+| `rmdir folder`  | Remove an empty directory                | `rmdir old-folder` |
+| `rm -r folder`  | Remove a directory recursively           | `rm -r backups`    |
+| `rm -rf folder` | Force remove recursively (**Dangerous**) | `rm -rf temp`      |
+
+---
+
+# File Viewing & Inspection
+
+| Command          | Description                             | Example               |
+| ---------------- | --------------------------------------- | --------------------- |
+| `cat file`       | Display the entire file                 | `cat README.md`       |
+| `cat > file`     | Create a file from terminal input       | `cat > notes.txt`     |
+| `less file`      | View large files interactively          | `less app.log`        |
+| `head file`      | Display the first 10 lines              | `head README.md`      |
+| `head -n N file` | Display the first N lines               | `head -n 5 README.md` |
+| `tail file`      | Display the last 10 lines               | `tail app.log`        |
+| `tail -n N file` | Display the last N lines                | `tail -n 20 app.log`  |
+| `tail -f file`   | Follow file updates in real time        | `tail -f server.log`  |
+| `nl file`        | Display file contents with line numbers | `nl config.conf`      |
+
+---
+
+# Counting File Content
+
+| Command      | Description                   | Example           |
+| ------------ | ----------------------------- | ----------------- |
+| `wc file`    | Count lines, words, and bytes | `wc README.md`    |
+| `wc -l file` | Count lines                   | `wc -l README.md` |
+| `wc -w file` | Count words                   | `wc -w README.md` |
+| `wc -c file` | Count bytes                   | `wc -c README.md` |
+| `wc -m file` | Count characters              | `wc -m README.md` |
+
+---
+
+# Comparing Files
+
+| Command            | Description                               | Example                  |
+| ------------------ | ----------------------------------------- | ------------------------ |
+| `diff file1 file2` | Compare two files and display differences | `diff old.conf new.conf` |
+
+Example:
+
+```bash
+diff skills.txt skills_backup.txt
+```
+
+Possible output:
+
+```text
+1a2
+> Kubernetes
+```
+
+Meaning:
+
+A line exists in the second file but not in the first.
+
+---
+
+# Output Redirection
+
+| Symbol | Description                                         | Example                       |
+| ------ | --------------------------------------------------- | ----------------------------- |
+| `>`    | Write output to a file (overwrite existing content) | `echo "Hello" > file.txt`     |
+| `>>`   | Append output to the end of a file                  | `echo "New line" >> file.txt` |
 
 ---
 
 # Path Symbols
 
-| Symbol | Meaning |
-|--------|---------|
-| `/` | Root directory |
-| `~` | Home directory |
-| `.` | Current directory |
-| `..` | Parent directory |
+| Symbol | Meaning           |
+| ------ | ----------------- |
+| `/`    | Root directory    |
+| `~`    | Home directory    |
+| `.`    | Current directory |
+| `..`   | Parent directory  |
 
 ---
 
@@ -69,9 +131,9 @@
 
 Starts from the root directory.
 
-Example
+Example:
 
-```bash
+```text
 /home/hamad/linux-practice/projects
 ```
 
@@ -81,9 +143,9 @@ Example
 
 Starts from the current directory.
 
-Example
+Example:
 
-```bash
+```text
 projects/project1
 ```
 
@@ -93,7 +155,7 @@ projects/project1
 
 Hidden files start with a dot (`.`).
 
-Examples
+Examples:
 
 ```text
 .bashrc
@@ -112,13 +174,13 @@ ls -a
 
 # Permission Symbols
 
-| Symbol | Meaning |
-|--------|---------|
-| `r` | Read |
-| `w` | Write |
-| `x` | Execute |
-| `d` | Directory |
-| `-` | Regular file |
+| Symbol | Meaning      |
+| ------ | ------------ |
+| `r`    | Read         |
+| `w`    | Write        |
+| `x`    | Execute      |
+| `d`    | Directory    |
+| `-`    | Regular file |
 
 Permission layout:
 
@@ -134,6 +196,7 @@ rwx | r-x | r-x
 
 ```bash
 pwd
+
 ls -la
 
 cd ~/linux-practice
@@ -144,7 +207,63 @@ cd project
 
 touch README.md
 
+cat > README.md
+
+Linux Practice Project
+
+Ctrl + D
+
+cat README.md
+
+head -n 5 README.md
+
+tail -n 5 README.md
+
+wc -l README.md
+
+nl README.md
+
+cp README.md README_backup.md
+
+echo "Version 2" >> README_backup.md
+
+diff README.md README_backup.md
+
 tree
+```
+
+---
+
+# Common DevOps Examples
+
+### Monitor application logs
+
+```bash
+tail -f application.log
+```
+
+### View a system log
+
+```bash
+less /var/log/syslog
+```
+
+### Count log entries
+
+```bash
+wc -l access.log
+```
+
+### Compare configuration files
+
+```bash
+diff nginx.conf nginx.conf.backup
+```
+
+### Display a configuration file
+
+```bash
+cat app.conf
 ```
 
 ---
@@ -153,11 +272,13 @@ tree
 
 ✅ Use `pwd` before deleting files.
 
-✅ Use `ls` before `rm`.
+✅ Use `ls` before running `rm`.
 
-✅ Prefer `rm` for files.
+✅ Verify files before deleting them.
 
-✅ Prefer `rmdir` for empty directories.
+✅ Use `tail -f` to monitor logs instead of reopening them repeatedly.
+
+✅ Use `less` instead of `cat` for very large files.
 
 ⚠ Never run:
 
@@ -183,22 +304,59 @@ ls
 ls -a
 ls -l
 ls -la
+
 cd
+
 mkdir
+
 touch
+
 tree
+
 rm
 rmdir
 rm -r
 rm -rf
+
+cat
+less
+
+head
+head -n
+
+tail
+tail -n
+tail -f
+
+wc
+wc -l
+wc -w
+wc -c
+wc -m
+
+nl
+
+diff
+
+>
+>>
 ```
 
 ---
 
 # Lesson Progress
 
-- ✅ Lesson 1 — Navigation & Filesystem Basics
-- ✅ Lesson 2 — Paths Deep Dive
-- ⏳ Lesson 3 — File Operations
-- ⏳ Lesson 4 — Wildcards & Searching
-- ⏳ Lesson 5 — File Viewing & Editing
+* ✅ Lesson 1 — Navigation & Filesystem Basics
+* ✅ Lesson 2 — Paths Deep Dive
+* ✅ Lesson 3 — File Operations
+* ✅ Lesson 4 — File Viewing & Inspection
+* ⏳ Lesson 5 — Wildcards & Searching
+* ⏳ Lesson 6 — File Editing
+* ⏳ Lesson 7 — Permissions
+* ⏳ Lesson 8 — Users & Groups
+* ⏳ Lesson 9 — Processes
+* ⏳ Lesson 10 — Package Management
+* ⏳ Lesson 11 — Networking
+* ⏳ Lesson 12 — Shell & Bash
+* ⏳ Lesson 13 — Automation & Scripting
+* ⏳ Lesson 14 — Linux for DevOps
