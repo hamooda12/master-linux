@@ -176,6 +176,29 @@ sudo apt install locate
 
 ---
 
+# Text Processing
+
+| Command | Description | Example |
+|----------|-------------|---------|
+| `grep "text" file` | Search for matching text | `grep IT employees.txt` |
+| `grep -i` | Ignore case | `grep -i ahmed employees.txt` |
+| `grep -n` | Show line numbers | `grep -n HR employees.txt` |
+| `grep -c` | Count matching lines | `grep -c IT employees.txt` |
+| `sort` | Sort lines alphabetically | `sort employees.txt` |
+| `sort -r` | Reverse sort | `sort -r employees.txt` |
+| `sort -n` | Sort numbers numerically | `sort -n numbers.txt` |
+| `uniq` | Remove adjacent duplicate lines | `sort file.txt \| uniq` |
+| `uniq -c` | Count duplicate lines | `sort file.txt \| uniq -c` |
+| `cut -d " " -f2` | Extract a field using a delimiter | `cut -d " " -f2 employees.txt` |
+| `cut -d "," -f3` | Extract CSV columns | `cut -d "," -f3 users.csv` |
+| `tr a-z A-Z` | Convert lowercase to uppercase | `echo hello \| tr a-z A-Z` |
+| `tr A-Z a-z` | Convert uppercase to lowercase | `echo HELLO \| tr A-Z a-z` |
+| `tr -d 0-9` | Delete characters | `echo abc123 \| tr -d 0-9` |
+| `tee file` | Display output and save it | `ls \| tee files.txt` |
+| `tee -a file` | Append output to a file | `ls \| tee -a files.txt` |
+| `\|` | Pipe output to another command | `grep ERROR log.txt \| sort` |
+
+---
 ## which
 
 Show the executable path of a command.
