@@ -1,0 +1,6 @@
+find vs locate
+find	locate
+Searches the filesystem live	Searches a database
+Slower	Much faster
+Always up to date	May require updatedb
+Supports many filters	Simple name lookup
