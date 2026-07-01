@@ -1,4 +1,4 @@
-Lesson 1 – Navigation & Filesystem Basics
+Lesson 1 — Navigation & Filesystem Basics
 
 Overview
 
@@ -6,24 +6,26 @@ Learning Objectives
 
 Prerequisites
 
-────────────────────
+═══════════════════════════════
 
-1. Linux Filesystem Fundamentals
+PART I
+Linux Filesystem Fundamentals
 
-• Why the Filesystem Matters
+• Why Filesystems Matter
 • What Is a Filesystem?
-• The Linux Filesystem Tree
+• Linux Filesystem Tree
 • Root Directory (/)
 • Root Directory vs Root User
 • Everything Is a File
 • Files vs Directories
-• Paths
-    - Absolute Paths
-    - Relative Paths
+• Understanding Paths
+    • Absolute Paths
+    • Relative Paths
 
-────────────────────
+═══════════════════════════════
 
-2. Navigation Commands
+PART II
+Navigation Commands
 
 • pwd
 • ls
@@ -36,42 +38,47 @@ Prerequisites
 • cd -
 • clear
 
-────────────────────
+═══════════════════════════════
 
-3. Practical Scenario
+PART III
+Practical Scenario
 
-────────────────────
+═══════════════════════════════
 
-4. Hands-on Lab
+PART IV
+Hands-on Lab
 
-────────────────────
+═══════════════════════════════
 
-5. Challenge
+PART V
+Challenge
 
-────────────────────
+═══════════════════════════════
 
-6. Common Mistakes
+PART VI
+Common Mistakes
 
-────────────────────
+═══════════════════════════════
 
-7. Best Practices
+PART VII
+Best Practices
 
-────────────────────
+═══════════════════════════════
 
-8. Interview Questions
+PART VIII
+Interview Questions
 
-────────────────────
+═══════════════════════════════
 
-9. Lesson Reflection
+PART IX
+Lesson Reflection
 
-────────────────────
+═══════════════════════════════
 
-10. Summary
+PART X
+Summary
 
-────────────────────
+═══════════════════════════════
 
-11. Cheat Sheet
-
-────────────────────
-
-12. Next Lesson
+PART XI
+Cheat Sheet
