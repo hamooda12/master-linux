@@ -178,7 +178,50 @@ echo "Warnings:"
 grep WARNING application.log | wc -l
 } > summary-report.txt
 ```
+# Chapter 02 -- Lesson 10 (Revised)
 
+## Bonus Exercise -- Analyze a Real System Log
+
+Depending on your Linux distribution, inspect one of these files:
+
+``` text
+/var/log/syslog
+```
+
+or
+
+``` text
+/var/log/auth.log
+```
+
+Try the following tasks:
+
+``` bash
+tail -50 /var/log/syslog
+```
+
+``` bash
+grep ERROR /var/log/syslog
+```
+
+``` bash
+grep WARNING /var/log/syslog | wc -l
+```
+
+``` bash
+grep "Failed password" /var/log/auth.log
+```
+
+Generate a report:
+
+``` bash
+grep ERROR /var/log/syslog | sort | uniq -c | sort -nr > system-error-report.txt
+```
+
+## Final Goal
+
+By completing this project you should be comfortable investigating real
+Linux logs using only command-line tools.
 ------------------------------------------------------------------------
 
 # Verification Checklist
