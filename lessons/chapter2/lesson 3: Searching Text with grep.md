@@ -1,16 +1,24 @@
-# Chapter 02 -- Lesson 03
+# Chapter 02 -- Lesson 03 (Revised)
 
-# Searching Text with grep
+# Searching Text with `grep`
 
-> **Commands Covered:** `grep`
+> **Command Covered:** `grep`
 
 ------------------------------------------------------------------------
 
 # Overview
 
-Searching for information quickly is one of the most valuable Linux
-skills. System administrators use `grep` every day to search
-configuration files, logs, source code, and command output.
+`grep` is one of the most frequently used Linux commands. It searches
+text for patterns and is used daily by system administrators,
+developers, security engineers, and DevOps teams.
+
+Typical use cases include:
+
+-   Searching log files
+-   Finding configuration settings
+-   Looking for users in `/etc/passwd`
+-   Filtering command output
+-   Investigating incidents
 
 ------------------------------------------------------------------------
 
@@ -19,12 +27,16 @@ configuration files, logs, source code, and command output.
 After this lesson you will be able to:
 
 -   Search for words and phrases
--   Ignore letter case
--   Show line numbers
--   Invert search results
+-   Match whole words and whole lines
+-   Ignore case
+-   Display line numbers
 -   Count matches
--   Search recursively through directories
--   Use `grep` in command pipelines
+-   Print only matching text
+-   Search directories recursively
+-   Show filenames that match (or don't)
+-   Display context around matches
+-   Understand basic regular expressions
+-   Build useful pipelines with `grep`
 
 ------------------------------------------------------------------------
 
@@ -40,12 +52,15 @@ Bob HR
 Charlie Engineering
 David Sales
 Emma HR
+root Administrator
+ERROR Database failed
+ERROR Timeout
 EOF
 ```
 
 ------------------------------------------------------------------------
 
-# Command Syntax
+# Syntax
 
 ``` bash
 grep [OPTIONS] PATTERN FILE
@@ -59,151 +74,314 @@ grep [OPTIONS] PATTERN FILE
 grep "Engineering" employees.txt
 ```
 
-Returns every line containing the word **Engineering**.
-
 ------------------------------------------------------------------------
 
-# Ignore Case
+# Ignore Case (`-i`)
 
 ``` bash
-grep -i "engineering" employees.txt
-```
-
-Matches `Engineering`, `ENGINEERING`, and `engineering`.
-
-------------------------------------------------------------------------
-
-# Show Line Numbers
-
-``` bash
-grep -n "HR" employees.txt
-```
-
-Example:
-
-``` text
-2:Bob HR
-5:Emma HR
+grep -i engineering employees.txt
 ```
 
 ------------------------------------------------------------------------
 
-# Count Matches
+# Show Line Numbers (`-n`)
 
 ``` bash
-grep -c "HR" employees.txt
+grep -n HR employees.txt
+```
+
+------------------------------------------------------------------------
+
+# Count Matches (`-c`)
+
+``` bash
+grep -c ERROR employees.txt
+```
+
+------------------------------------------------------------------------
+
+# Invert Match (`-v`)
+
+``` bash
+grep -v HR employees.txt
+```
+
+------------------------------------------------------------------------
+
+# Match Whole Words (`-w`)
+
+Without `-w`, searching for `root` may also match words containing
+`root`.
+
+``` bash
+grep -w root employees.txt
+```
+
+------------------------------------------------------------------------
+
+# Match Entire Lines (`-x`)
+
+``` bash
+grep -x "Emma HR" employees.txt
+```
+
+The entire line must match exactly.
+
+------------------------------------------------------------------------
+
+# Show Matching Filenames (`-l`)
+
+``` bash
+grep -l ERROR *.log
+```
+
+Useful when searching many log files.
+
+------------------------------------------------------------------------
+
+# Show Files Without Matches (`-L`)
+
+``` bash
+grep -L ERROR *.log
+```
+
+------------------------------------------------------------------------
+
+# Print Only the Match (`-o`)
+
+``` bash
+grep -o ERROR employees.txt
 ```
 
 Output:
 
 ``` text
-2
+ERROR
+ERROR
 ```
 
 ------------------------------------------------------------------------
 
-# Invert the Match
+# Recursive Search (`-r`)
 
 ``` bash
-grep -v "HR" employees.txt
+grep -r TODO .
 ```
 
-Displays every line that does **not** contain `HR`.
+Search every file below the current directory.
 
 ------------------------------------------------------------------------
 
-# Search Recursively
+# Context Options
+
+Show lines **after** a match:
 
 ``` bash
-grep -r "TODO" .
+grep -A 2 ERROR application.log
 ```
 
-Searches every file in the current directory tree.
+Show lines **before** a match:
+
+``` bash
+grep -B 2 ERROR application.log
+```
+
+Show lines before **and** after:
+
+``` bash
+grep -C 2 ERROR application.log
+```
+
+These options are extremely useful when troubleshooting logs.
 
 ------------------------------------------------------------------------
 
-# grep in Pipelines
+# Basic Regular Expressions
 
-Find SSH processes:
+## Dot (`.`)
+
+Matches any single character.
 
 ``` bash
-ps aux | grep ssh
+grep "c.t" words.txt
 ```
 
-Search recent authentication failures:
+Matches:
+
+``` text
+cat
+cot
+cut
+```
+
+------------------------------------------------------------------------
+
+## Asterisk (`*`)
+
+Repeats the previous character zero or more times.
+
+Example:
 
 ``` bash
-tail -100 /var/log/auth.log | grep "Failed"
+grep "ab*c" words.txt
+```
+
+Matches:
+
+``` text
+ac
+abc
+abbc
+abbbc
+```
+
+------------------------------------------------------------------------
+
+## Caret (`^`)
+
+Beginning of a line.
+
+``` bash
+grep "^root" /etc/passwd
+```
+
+------------------------------------------------------------------------
+
+## Dollar Sign (`$`)
+
+End of a line.
+
+``` bash
+grep "failed$" log.txt
+```
+
+------------------------------------------------------------------------
+
+## Character Classes (`[]`)
+
+``` bash
+grep "[0-9]" numbers.txt
+```
+
+``` bash
+grep "[AEIOU]" names.txt
+```
+
+------------------------------------------------------------------------
+
+# Real Linux Examples
+
+Find the root account:
+
+``` bash
+grep "^root" /etc/passwd
+```
+
+Search groups:
+
+``` bash
+grep sudo /etc/group
+```
+
+Search host entries:
+
+``` bash
+grep localhost /etc/hosts
+```
+
+Count failed SSH logins:
+
+``` bash
+grep "Failed password" /var/log/auth.log | wc -l
+```
+
+------------------------------------------------------------------------
+
+# Pipelines
+
+Running SSH processes:
+
+``` bash
+ps -ef | grep ssh
+```
+
+Find the most common error:
+
+``` bash
+grep ERROR application.log | sort | uniq -c | sort -nr
 ```
 
 ------------------------------------------------------------------------
 
 # Practical Scenario
 
-A production server reports database failures.
+An application crashes repeatedly.
 
-Instead of reading thousands of log lines:
-
-``` bash
-grep -i "error" application.log
-```
-
-or
+Investigate:
 
 ``` bash
-grep -i "database" application.log
+grep -C 3 ERROR application.log
 ```
+
+This displays the error together with surrounding events.
 
 ------------------------------------------------------------------------
 
 # Hands-on Lab
 
 1.  Search for Engineering.
-2.  Search for HR.
-3.  Count HR entries.
-4.  Display line numbers.
-5.  Ignore case.
-6.  Exclude Sales.
-7.  Create another file and search recursively.
+2.  Ignore case.
+3.  Show line numbers.
+4.  Match whole words.
+5.  Match an entire line.
+6.  Print only matching text.
+7.  Search recursively.
+8.  Display two lines of context around ERROR.
+9.  Search `/etc/passwd` for the root account.
 
 ------------------------------------------------------------------------
 
 # Challenge
 
-Create a log file with 20 entries containing INFO, WARNING, and ERROR.
+Create three log files.
 
-Practice:
+Use:
 
--   `grep ERROR`
--   `grep -c ERROR`
--   `grep -v INFO`
--   `grep -n WARNING`
+-   `grep -l`
+-   `grep -L`
+-   `grep -A`
+-   `grep -B`
+-   `grep -C`
+-   `grep -o`
+
+Then explain the output of each command.
 
 ------------------------------------------------------------------------
 
 # Common Mistakes
 
--   Forgetting quotes around patterns with spaces.
--   Searching the wrong directory.
--   Confusing `grep` with shell wildcards.
+-   Forgetting quotes around patterns containing spaces.
+-   Using `uniq` without sorting first.
+-   Confusing shell wildcards (`*`) with regular expressions.
 
 ------------------------------------------------------------------------
 
 # Best Practices
 
--   Use `-i` when capitalization is inconsistent.
--   Use `-n` while debugging.
--   Combine `grep` with `tail`, `head`, `cat`, and pipes.
+-   Use `-i` when capitalization is uncertain.
+-   Use `-n` during debugging.
+-   Use `-C` when investigating logs.
+-   Combine `grep` with pipes for efficient analysis.
 
 ------------------------------------------------------------------------
 
 # Interview Questions
 
 1.  What does `grep` do?
-2.  What is the purpose of `-i`?
-3.  What does `-v` do?
-4.  How do you count matches?
-5.  Why is `grep` commonly used with pipes?
+2.  What is the difference between `-w` and `-x`?
+3.  When would you use `-A`, `-B`, and `-C`?
+4.  What does `grep -o` print?
+5.  Explain the meaning of `.`, `*`, `^`, `$`, and `[]`.
 
 ------------------------------------------------------------------------
 
@@ -213,9 +391,17 @@ Practice:
 grep text file
 grep -i text file
 grep -n text file
-grep -v text file
 grep -c text file
-grep -r text .
+grep -v text file
+grep -w text file
+grep -x "line" file
+grep -o pattern file
+grep -l pattern *.log
+grep -L pattern *.log
+grep -A 2 pattern file
+grep -B 2 pattern file
+grep -C 2 pattern file
+grep -r pattern .
 ```
 
 ------------------------------------------------------------------------
@@ -224,10 +410,10 @@ grep -r text .
 
 Capture:
 
--   lesson-03-basic-grep.png
--   lesson-03-ignore-case.png
--   lesson-03-line-numbers.png
--   lesson-03-recursive-search.png
+-   lesson-03-basic-search.png
+-   lesson-03-context-search.png
+-   lesson-03-regex.png
+-   lesson-03-passwd-search.png
 
 ------------------------------------------------------------------------
 
