@@ -1,0 +1,296 @@
+# Linux Practice Book
+
+# Chapter 02 — Working with Text Files and Streams
+
+---
+
+# Chapter Overview
+
+Text files are the heart of Linux.
+
+Unlike many operating systems that rely heavily on graphical interfaces and binary configuration files, Linux stores an enormous amount of information as plain text.
+
+System administrators spend a large portion of their day reading logs, editing configuration files, searching for specific information, comparing files, redirecting output, and combining commands together.
+
+Mastering text processing is one of the biggest milestones in becoming comfortable with Linux.
+
+By the end of this chapter, you'll understand not only how to work with text files, but also how Linux treats everything as a stream of data that can be manipulated with simple yet powerful commands.
+
+---
+
+# Learning Objectives
+
+After completing this chapter you will be able to:
+
+- Understand what text streams are
+- Read files efficiently
+- View large files
+- Navigate inside long files
+- Count lines, words, and characters
+- Search inside text files
+- Display portions of files
+- Sort data
+- Remove duplicate lines
+- Compare files
+- Redirect output
+- Redirect errors
+- Append data to files
+- Pipe commands together
+- Build complex command pipelines
+
+---
+
+# Prerequisites
+
+You should already understand:
+
+- Linux filesystem
+- Navigation commands
+- File operations
+- Permissions
+- Hidden files
+- Links
+- File ownership
+
+(Completed in Chapter 01)
+
+---
+
+# Why Text Matters in Linux
+
+Most important Linux files are plain text.
+
+Examples include:
+
+```text
+/etc/passwd
+/etc/group
+/etc/hosts
+/etc/fstab
+/etc/ssh/sshd_config
+```
+
+Log files:
+
+```text
+/var/log/syslog
+/var/log/auth.log
+```
+
+Configuration files:
+
+```text
+*.conf
+*.cfg
+*.ini
+```
+
+Scripts:
+
+```bash
+.sh
+```
+
+Because everything is stored as text, Linux provides powerful tools to manipulate it.
+
+---
+
+# The Linux Stream Philosophy
+
+One of Linux's greatest ideas is that almost everything is treated as a stream.
+
+```text
+Application
+      │
+      ▼
+ Standard Output
+      │
+      ▼
+Another Command
+      │
+      ▼
+File
+```
+
+Programs usually don't know where their output goes.
+
+It may be:
+
+- Your terminal
+- A file
+- Another command
+- A network connection
+
+This flexibility is what makes Linux so powerful.
+
+---
+
+# Standard Streams
+
+Every Linux program starts with three standard communication channels.
+
+```text
+           Program
+        ┌─────────────┐
+stdin → │             │
+stdout← │             │
+stderr← │             │
+        └─────────────┘
+```
+
+| Stream | Number | Purpose |
+|----------|---------|----------|
+| stdin | 0 | Input |
+| stdout | 1 | Normal output |
+| stderr | 2 | Error output |
+
+These three streams form the foundation of shell scripting and command pipelines.
+
+---
+
+# Chapter Roadmap
+
+## Lesson 1
+Viewing File Contents (`cat`, `less`, `more`)
+
+## Lesson 2
+Reading Large Files (`head`, `tail`, `tail -f`)
+
+## Lesson 3
+Searching Text (`grep`, basic regular expressions)
+
+## Lesson 4
+Counting Text (`wc`)
+
+## Lesson 5
+Sorting and Unique Data (`sort`, `uniq`)
+
+## Lesson 6
+Comparing Files (`diff`, `cmp`)
+
+## Lesson 7
+Redirection (`>`, `>>`, `<`, `2>`, `2>>`)
+
+## Lesson 8
+Pipes (`|`)
+
+## Lesson 9
+Building Pipelines
+
+## Lesson 10
+Mini Log Analysis Project
+
+---
+
+# Lab Environment
+
+```bash
+mkdir ~/chapter02
+cd ~/chapter02
+
+mkdir files logs outputs
+
+touch files/names.txt
+touch files/employees.txt
+touch files/products.txt
+touch logs/system.log
+touch logs/errors.log
+
+tree
+```
+
+Expected structure:
+
+```text
+chapter02/
+├── files
+│   ├── names.txt
+│   ├── employees.txt
+│   └── products.txt
+├── logs
+│   ├── errors.log
+│   └── system.log
+└── outputs
+```
+
+---
+
+# Repository Layout
+
+```text
+linux-practice/
+├── chapter-01/
+├── chapter-02/
+│   ├── README.md
+│   ├── lessons/
+│   ├── labs/
+│   ├── assets/
+│   ├── files/
+│   ├── logs/
+│   └── outputs/
+└── cheat-sheet.md
+```
+
+---
+
+# Lab Assets
+
+Create:
+
+```text
+assets/chapter-02/
+├── lesson-01-cat-output.png
+├── lesson-01-less-navigation.png
+├── lesson-02-head-tail.png
+├── lesson-03-grep-search.png
+├── lesson-04-wc-results.png
+├── lesson-05-sort-uniq.png
+├── lesson-06-diff-output.png
+├── lesson-07-redirection.png
+├── lesson-08-pipeline.png
+├── lesson-09-complex-pipeline.png
+├── lesson-10-log-analysis.png
+└── chapter-02-terminal-tree.png
+```
+
+---
+
+# Chapter Goals
+
+By the end of this chapter you should be able to:
+
+- Read very large log files
+- Search for specific events
+- Count records efficiently
+- Remove duplicate data
+- Redirect output and errors
+- Build reusable command pipelines
+- Analyze logs like a Linux system administrator
+
+---
+
+# Interview Questions Preview
+
+1. Difference between `cat`, `less`, and `more`?
+2. What are stdin, stdout, and stderr?
+3. When would you use `tail -f`?
+4. Difference between `>` and `>>`?
+5. How do pipes work?
+6. Difference between `sort` and `uniq`?
+7. How does `grep` work?
+8. Difference between `diff` and `cmp`?
+9. Why is text processing fundamental in Linux?
+10. How do you combine commands into a pipeline?
+
+---
+
+# Next Lesson
+
+**Lesson 1 — Viewing File Contents**
+
+Commands:
+- `cat`
+- `less`
+- `more`
+
+We'll start by learning how Linux users inspect text files efficiently and choose the right tool for each situation.
