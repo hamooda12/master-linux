@@ -1,8 +1,8 @@
 # Linux Cheat Sheet
 
-> Personal Linux reference built during my Linux Mastery Journey.
+> Personal Linux reference built during my **Linux Mastery Journey**.
 >
-> **Last Updated:** Lesson 4 - File Viewing & Inspection
+> **Last Updated:** Lesson 5 – Wildcards & Searching
 
 ---
 
@@ -21,12 +21,12 @@
 
 # Listing Files
 
-| Command  | Description                                | Example  |
-| -------- | ------------------------------------------ | -------- |
-| `ls`     | List directory contents                    | `ls`     |
-| `ls -a`  | Show hidden files                          | `ls -a`  |
-| `ls -l`  | Long listing format                        | `ls -l`  |
-| `ls -la` | Long listing format including hidden files | `ls -la` |
+| Command  | Description                         | Example  |
+| -------- | ----------------------------------- | -------- |
+| `ls`     | List directory contents             | `ls`     |
+| `ls -a`  | Show hidden files                   | `ls -a`  |
+| `ls -l`  | Long listing format                 | `ls -l`  |
+| `ls -la` | Long listing including hidden files | `ls -la` |
 
 ---
 
@@ -37,7 +37,7 @@
 | `mkdir folder`    | Create a directory          | `mkdir project`   |
 | `mkdir dir1 dir2` | Create multiple directories | `mkdir docs logs` |
 | `touch file.txt`  | Create an empty file        | `touch notes.txt` |
-| `tree`            | Display the directory tree  | `tree`            |
+| `tree`            | Display directory tree      | `tree`            |
 
 ---
 
@@ -54,17 +54,17 @@
 
 # File Viewing & Inspection
 
-| Command          | Description                             | Example               |
-| ---------------- | --------------------------------------- | --------------------- |
-| `cat file`       | Display the entire file                 | `cat README.md`       |
-| `cat > file`     | Create a file from terminal input       | `cat > notes.txt`     |
-| `less file`      | View large files interactively          | `less app.log`        |
-| `head file`      | Display the first 10 lines              | `head README.md`      |
-| `head -n N file` | Display the first N lines               | `head -n 5 README.md` |
-| `tail file`      | Display the last 10 lines               | `tail app.log`        |
-| `tail -n N file` | Display the last N lines                | `tail -n 20 app.log`  |
-| `tail -f file`   | Follow file updates in real time        | `tail -f server.log`  |
-| `nl file`        | Display file contents with line numbers | `nl config.conf`      |
+| Command          | Description                       | Example               |
+| ---------------- | --------------------------------- | --------------------- |
+| `cat file`       | Display the entire file           | `cat README.md`       |
+| `cat > file`     | Create a file from terminal input | `cat > notes.txt`     |
+| `less file`      | View large files interactively    | `less app.log`        |
+| `head file`      | Display the first 10 lines        | `head README.md`      |
+| `head -n N file` | Display the first N lines         | `head -n 5 README.md` |
+| `tail file`      | Display the last 10 lines         | `tail app.log`        |
+| `tail -n N file` | Display the last N lines          | `tail -n 20 app.log`  |
+| `tail -f file`   | Follow live updates               | `tail -f server.log`  |
+| `nl file`        | Display line numbers              | `nl config.conf`      |
 
 ---
 
@@ -82,35 +82,120 @@
 
 # Comparing Files
 
-| Command            | Description                               | Example                  |
-| ------------------ | ----------------------------------------- | ------------------------ |
-| `diff file1 file2` | Compare two files and display differences | `diff old.conf new.conf` |
-
-Example:
-
-```bash
-diff skills.txt skills_backup.txt
-```
-
-Possible output:
-
-```text
-1a2
-> Kubernetes
-```
-
-Meaning:
-
-A line exists in the second file but not in the first.
+| Command            | Description       | Example                  |
+| ------------------ | ----------------- | ------------------------ |
+| `diff file1 file2` | Compare two files | `diff old.conf new.conf` |
 
 ---
 
 # Output Redirection
 
-| Symbol | Description                                         | Example                       |
-| ------ | --------------------------------------------------- | ----------------------------- |
-| `>`    | Write output to a file (overwrite existing content) | `echo "Hello" > file.txt`     |
-| `>>`   | Append output to the end of a file                  | `echo "New line" >> file.txt` |
+| Symbol | Description                | Example                       |
+| ------ | -------------------------- | ----------------------------- |
+| `>`    | Overwrite file with output | `echo "Hello" > file.txt`     |
+| `>>`   | Append output to a file    | `echo "New Line" >> file.txt` |
+
+---
+
+# Wildcards
+
+Wildcards are expanded by the shell before a command is executed.
+
+| Wildcard | Meaning                         | Example           |
+| -------- | ------------------------------- | ----------------- |
+| `*`      | Matches zero or more characters | `ls *.log`        |
+| `?`      | Matches exactly one character   | `ls file?.txt`    |
+| `[abc]`  | Match one character from a set  | `ls file[12].txt` |
+| `[1-5]`  | Match a character in a range    | `ls app[1-5].log` |
+
+### Examples
+
+```bash
+ls *.txt
+ls *.log
+ls app*
+ls *error*
+ls log?.txt
+ls app[12].log
+ls app[1-3].log
+```
+
+---
+
+# Searching Files
+
+## find
+
+Search files and directories recursively.
+
+| Command                        | Description                              |
+| ------------------------------ | ---------------------------------------- |
+| `find .`                       | Search everything from current directory |
+| `find ~`                       | Search from home directory               |
+| `find . -name "file"`          | Search by exact filename                 |
+| `find . -name "*.txt"`         | Search by extension                      |
+| `find . -iname "*.txt"`        | Case-insensitive search                  |
+| `find . -type f`               | Find regular files                       |
+| `find . -type d`               | Find directories                         |
+| `find . -empty`                | Find empty files/directories             |
+| `find . -size +10M`            | Files larger than 10 MB                  |
+| `find . -size -1M`             | Files smaller than 1 MB                  |
+| `find . -mtime -1`             | Modified within the last day             |
+| `find . -mtime +30`            | Modified more than 30 days ago           |
+| `find . -name "*.tmp" -delete` | Delete matching files                    |
+
+> **Tip:** Always quote wildcard patterns when using `find`.
+
+Example:
+
+```bash
+find . -name "*.log"
+```
+
+---
+
+## locate
+
+Search using a prebuilt database.
+
+```bash
+locate README.md
+```
+
+Update the database:
+
+```bash
+sudo updatedb
+```
+
+Install if needed:
+
+```bash
+sudo apt install locate
+```
+
+---
+
+## which
+
+Show the executable path of a command.
+
+```bash
+which git
+which bash
+which python3
+```
+
+---
+
+## whereis
+
+Show executable, source files, and manual pages.
+
+```bash
+whereis bash
+whereis git
+```
 
 ---
 
@@ -137,8 +222,6 @@ Example:
 /home/hamad/linux-practice/projects
 ```
 
----
-
 ## Relative Path
 
 Starts from the current directory.
@@ -153,7 +236,7 @@ projects/project1
 
 # Hidden Files
 
-Hidden files start with a dot (`.`).
+Hidden files begin with a dot (`.`).
 
 Examples:
 
@@ -164,7 +247,7 @@ Examples:
 .ssh
 ```
 
-Show hidden files:
+Display hidden files:
 
 ```bash
 ls -a
@@ -196,13 +279,11 @@ rwx | r-x | r-x
 
 ```bash
 pwd
-
 ls -la
 
 cd ~/linux-practice
 
 mkdir project
-
 cd project
 
 touch README.md
@@ -214,13 +295,10 @@ Linux Practice Project
 Ctrl + D
 
 cat README.md
-
-head -n 5 README.md
-
-tail -n 5 README.md
+head -5 README.md
+tail -5 README.md
 
 wc -l README.md
-
 nl README.md
 
 cp README.md README_backup.md
@@ -228,6 +306,8 @@ cp README.md README_backup.md
 echo "Version 2" >> README_backup.md
 
 diff README.md README_backup.md
+
+find . -name "*.md"
 
 tree
 ```
@@ -242,7 +322,7 @@ tree
 tail -f application.log
 ```
 
-### View a system log
+### View system logs
 
 ```bash
 less /var/log/syslog
@@ -260,10 +340,28 @@ wc -l access.log
 diff nginx.conf nginx.conf.backup
 ```
 
-### Display a configuration file
+### Search configuration files
 
 ```bash
-cat app.conf
+find /etc -name "*.conf"
+```
+
+### Find Docker Compose files
+
+```bash
+find ~ -name "docker-compose.yml"
+```
+
+### Find Git executable
+
+```bash
+which git
+```
+
+### Find Bash executable and man page
+
+```bash
+whereis bash
 ```
 
 ---
@@ -272,13 +370,15 @@ cat app.conf
 
 ✅ Use `pwd` before deleting files.
 
-✅ Use `ls` before running `rm`.
+✅ Use `ls` before using `rm`.
 
 ✅ Verify files before deleting them.
 
-✅ Use `tail -f` to monitor logs instead of reopening them repeatedly.
+✅ Test `find` before adding `-delete`.
 
-✅ Use `less` instead of `cat` for very large files.
+✅ Use `less` for large files.
+
+✅ Use `tail -f` for monitoring live logs.
 
 ⚠ Never run:
 
@@ -300,12 +400,13 @@ unless you intentionally want to destroy the system.
 
 ```text
 pwd
+
+cd
+
 ls
 ls -a
 ls -l
 ls -la
-
-cd
 
 mkdir
 
@@ -338,6 +439,16 @@ nl
 
 diff
 
+find
+locate
+updatedb
+which
+whereis
+
+*
+?
+[]
+
 >
 >>
 ```
@@ -350,13 +461,14 @@ diff
 * ✅ Lesson 2 — Paths Deep Dive
 * ✅ Lesson 3 — File Operations
 * ✅ Lesson 4 — File Viewing & Inspection
-* ⏳ Lesson 5 — Wildcards & Searching
-* ⏳ Lesson 6 — File Editing
-* ⏳ Lesson 7 — Permissions
-* ⏳ Lesson 8 — Users & Groups
-* ⏳ Lesson 9 — Processes
-* ⏳ Lesson 10 — Package Management
-* ⏳ Lesson 11 — Networking
-* ⏳ Lesson 12 — Shell & Bash
-* ⏳ Lesson 13 — Automation & Scripting
-* ⏳ Lesson 14 — Linux for DevOps
+* ✅ Lesson 5 — Wildcards & Searching
+* ⏳ Lesson 6 — Text Processing
+* ⏳ Lesson 7 — File Editing
+* ⏳ Lesson 8 — Permissions
+* ⏳ Lesson 9 — Users & Groups
+* ⏳ Lesson 10 — Processes
+* ⏳ Lesson 11 — Package Management
+* ⏳ Lesson 12 — Networking
+* ⏳ Lesson 13 — Shell & Bash
+* ⏳ Lesson 14 — Automation & Scripting
+* ⏳ Lesson 15 — Linux for DevOps
