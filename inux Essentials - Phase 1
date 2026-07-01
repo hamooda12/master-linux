@@ -1,12 +1,28 @@
-# Linux Essentials - Phase 1
+# Linux Essentials – Phase 1
 
-This repository contains my hands-on practice while learning Linux fundamentals. The goal is to understand how to navigate the Linux filesystem, create and manage files and directories, and become comfortable working in the terminal.
+A complete hands-on guide documenting my Linux learning journey.
+
+This repository contains practical exercises, command references, explanations, and real-world examples completed throughout **Phase 1: Linux Essentials**.
 
 ---
 
-# Lesson 1 - Navigation & Filesystem Basics
+# Objectives
 
-## 1. pwd (Print Working Directory)
+By completing this phase, I learned how to:
+
+* Navigate the Linux filesystem
+* Understand the Linux directory hierarchy
+* Work with files and directories
+* Inspect file contents
+* Search for files and text
+* Process text using common Linux utilities
+* Become comfortable working entirely from the terminal
+
+---
+
+# Lesson 1 – Navigation & Filesystem Basics
+
+## pwd
 
 Displays the absolute path of the current working directory.
 
@@ -16,7 +32,7 @@ Displays the absolute path of the current working directory.
 pwd
 ```
 
-### Example
+Example
 
 ```bash
 /home/hamad/linux-practice
@@ -24,230 +40,180 @@ pwd
 
 ---
 
-## 2. ls
+## ls
 
-Lists the contents of the current directory.
-
-### Syntax
+Lists files and directories.
 
 ```bash
 ls
 ```
 
-### Example Output
-
-```text
-Documents
-Downloads
-Pictures
-Videos
-```
-
 ---
 
-## 3. ls -a
+## ls -a
 
-Lists all files, including hidden files.
-
-In Linux, every file or directory whose name starts with a dot (`.`) is considered hidden.
-
-### Syntax
+Displays all files including hidden files.
 
 ```bash
 ls -a
 ```
 
-### Example
+Hidden files begin with a dot (`.`).
+
+Example
 
 ```text
-.
-..
 .bashrc
 .profile
-.config
-.ssh
+.git
 ```
 
 ---
 
-## 4. ls -l
+## ls -l
 
-Displays detailed information about files and directories.
-
-The output includes:
-
-- File type
-- Permissions
-- Number of links
-- Owner
-- Group
-- File size
-- Last modification date
-- File name
-
-### Syntax
+Displays detailed file information.
 
 ```bash
 ls -l
 ```
 
-### Example
+Example
 
 ```text
-drwxr-xr-x 3 hamad hamad 4096 Jun 30 19:47 Desktop
+drwxr-xr-x 2 hamad hamad 4096 Jun 30 18:20 projects
 ```
+
+Information displayed:
+
+* File type
+* Permissions
+* Owner
+* Group
+* Size
+* Modification date
+* Name
 
 ---
 
-## Understanding the Permission Field
+### Understanding Linux Permissions
 
-Example:
+Example
 
 ```text
 drwxr-xr-x
 ```
 
-| Symbol | Meaning |
-|---------|----------|
-| d | Directory |
-| r | Read |
-| w | Write |
-| x | Execute |
+| Part | Meaning   |
+| ---- | --------- |
+| d    | Directory |
+| r    | Read      |
+| w    | Write     |
+| x    | Execute   |
 
-Permissions are divided into three groups:
+Permissions are divided into:
 
-```text
+```
 Owner | Group | Others
 ```
 
-Example:
+Example
 
-```text
-rwx | r-x | r-x
+```
+rwx r-x r-x
 ```
 
 ---
 
-## 5. cd (Change Directory)
+## cd
 
-Changes the current working directory.
+Changes the current directory.
 
-### Syntax
-
-```bash
-cd Documents
-```
-
-Move back to the parent directory:
+Examples
 
 ```bash
+cd projects
+
 cd ..
-```
 
-Go directly to the home directory:
-
-```bash
-cd
-```
-
-or
-
-```bash
 cd ~
+
+cd /
 ```
 
 ---
 
-## 6. mkdir (Make Directory)
+## mkdir
 
-Creates a new directory.
-
-### Syntax
+Creates directories.
 
 ```bash
 mkdir projects
 ```
 
-Create multiple directories:
+Create multiple directories
 
 ```bash
-mkdir scripts logs config
+mkdir logs config backups
 ```
 
 ---
 
-## 7. touch
+## touch
 
-Creates an empty file.
-
-If the file already exists, it updates its last modification timestamp.
-
-### Syntax
+Creates empty files.
 
 ```bash
 touch README.md
 ```
 
-Create multiple files:
+Multiple files
 
 ```bash
-touch app.conf notes.txt README.md
+touch notes.txt app.conf todo.txt
 ```
 
 ---
 
-## 8. tree
+## tree
 
-Displays the directory structure as a tree.
-
-### Syntax
+Displays the directory tree.
 
 ```bash
 tree
 ```
 
-### Example
+Example
 
 ```text
 .
-├── README.md
-├── app.conf
 ├── config
 ├── logs
+├── README.md
 └── scripts
 ```
 
 ---
 
-# Lesson 2 - Paths
+# Lesson 2 – Working with Paths
 
 ## Absolute Path
 
-An absolute path always starts from the root directory (`/`).
+Starts from the root directory (`/`).
 
-It works regardless of your current location.
-
-### Example
+Example
 
 ```bash
-cd /home/hamad/linux-practice/backups
+cd /home/hamad/linux-practice/projects
 ```
 
 ---
 
 ## Relative Path
 
-A relative path depends on your current directory.
+Starts from the current directory.
 
-### Example
-
-If you are in:
-
-```text
-/home/hamad/linux-practice
-```
-
-You can access:
+Example
 
 ```bash
 cd projects/project1
@@ -255,121 +221,111 @@ cd projects/project1
 
 ---
 
-## Special Directory Symbols
+## Special Directories
 
-### .
+### Current Directory
 
-Represents the current directory.
-
-```bash
-cd .
+```
+.
 ```
 
-Usually used with commands such as:
+Examples
 
 ```bash
 find .
-```
 
-or
-
-```bash
 ./script.sh
 ```
 
 ---
 
-### ..
+### Parent Directory
 
-Represents the parent directory.
+```
+..
+```
 
-Example:
+Example
 
 ```bash
 cd ..
-```
-
-If you are in:
-
-```text
-/home/hamad/linux-practice/backups
-```
-
-After running:
-
-```bash
-cd ..
-```
-
-You will be in:
-
-```text
-/home/hamad/linux-practice
 ```
 
 ---
 
-### ~
+### Home Directory
 
-Represents the current user's home directory.
+```
+~
+```
 
-Example:
+Example
 
 ```bash
 cd ~
 ```
 
-Result:
+---
 
-```text
-/home/hamad
+# Lesson 3 – File Operations
+
+## cp
+
+Copies files.
+
+```bash
+cp source.txt destination.txt
+```
+
+Copy a directory recursively
+
+```bash
+cp -r projects backups
 ```
 
 ---
 
-# File Deletion
+## mv
+
+Moves or renames files.
+
+Move
+
+```bash
+mv notes.txt Documents/
+```
+
+Rename
+
+```bash
+mv old.txt new.txt
+```
+
+---
 
 ## rm
 
-Removes files.
-
-### Syntax
-
-```bash
-rm filename.txt
-```
-
-Example:
+Deletes a file.
 
 ```bash
 rm notes.txt
 ```
 
-> **Warning:** Files deleted with `rm` are not moved to the Recycle Bin.
-
 ---
 
 ## rmdir
 
-Removes an empty directory.
-
-### Syntax
+Deletes an empty directory.
 
 ```bash
 rmdir temp
 ```
 
-If the directory contains files, Linux will display an error.
-
 ---
 
 ## rm -r
 
-Removes a directory recursively.
-
-This deletes the directory and everything inside it.
-
-### Example
+Deletes a directory recursively.
 
 ```bash
 rm -r projects
@@ -379,20 +335,292 @@ rm -r projects
 
 ## rm -rf
 
-A very powerful and dangerous command.
-
-### Example
+Deletes recursively without confirmation.
 
 ```bash
-rm -rf folder_name
+rm -rf folder
 ```
 
-Options:
+⚠️ Use with extreme caution.
 
-- `-r` → Recursive
-- `-f` → Force (do not ask for confirmation)
+---
 
-**Use this command carefully.**
+# Lesson 4 – Viewing & Inspecting Files
+
+## cat
+
+Displays the entire contents of a file.
+
+```bash
+cat file.txt
+```
+
+Create a file from the terminal
+
+```bash
+cat > notes.txt
+```
+
+Append text
+
+```bash
+cat >> notes.txt
+```
+
+---
+
+## less
+
+Views large files page by page.
+
+```bash
+less logfile.log
+```
+
+Useful shortcuts:
+
+* Space → Next page
+* b → Previous page
+* /text → Search
+* q → Quit
+
+---
+
+## head
+
+Displays the first 10 lines.
+
+```bash
+head file.txt
+```
+
+Custom number
+
+```bash
+head -20 file.txt
+```
+
+---
+
+## tail
+
+Displays the last 10 lines.
+
+```bash
+tail file.txt
+```
+
+Follow live updates
+
+```bash
+tail -f application.log
+```
+
+---
+
+## wc
+
+Counts:
+
+* Lines
+* Words
+* Characters
+
+```bash
+wc file.txt
+```
+
+Examples
+
+```bash
+wc -l file.txt
+
+wc -w file.txt
+
+wc -c file.txt
+```
+
+---
+
+## file
+
+Identifies the file type.
+
+```bash
+file image.png
+```
+
+Example
+
+```text
+image.png: PNG image data
+```
+
+---
+
+# Lesson 5 – Searching & Filtering
+
+## find
+
+Searches for files and directories.
+
+Search by name
+
+```bash
+find . -name "*.txt"
+```
+
+Search only directories
+
+```bash
+find . -type d
+```
+
+Search only files
+
+```bash
+find . -type f
+```
+
+---
+
+## grep
+
+Searches inside files.
+
+```bash
+grep "error" logfile.log
+```
+
+Ignore case
+
+```bash
+grep -i linux notes.txt
+```
+
+Recursive search
+
+```bash
+grep -r "TODO" .
+```
+
+Show line numbers
+
+```bash
+grep -n "main" app.py
+```
+
+---
+
+## Pipes
+
+Send the output of one command into another.
+
+```bash
+command1 | command2
+```
+
+Examples
+
+```bash
+ls | less
+
+cat file.txt | grep Linux
+
+history | grep ssh
+```
+
+---
+
+# Lesson 6 – Text Processing
+
+## cut
+
+Extracts columns from text.
+
+```bash
+cut -d: -f1 /etc/passwd
+```
+
+---
+
+## sort
+
+Sorts lines alphabetically.
+
+```bash
+sort names.txt
+```
+
+Reverse
+
+```bash
+sort -r names.txt
+```
+
+Numeric
+
+```bash
+sort -n scores.txt
+```
+
+---
+
+## uniq
+
+Removes consecutive duplicate lines.
+
+```bash
+uniq file.txt
+```
+
+Count duplicates
+
+```bash
+uniq -c file.txt
+```
+
+Usually combined with sort
+
+```bash
+sort file.txt | uniq
+```
+
+---
+
+## awk
+
+Powerful text-processing tool.
+
+Print the first column
+
+```bash
+awk '{print $1}' file.txt
+```
+
+Custom delimiter
+
+```bash
+awk -F: '{print $1}' /etc/passwd
+```
+
+---
+
+## sed
+
+Stream editor for searching and replacing text.
+
+Replace the first occurrence
+
+```bash
+sed 's/Linux/Ubuntu/' file.txt
+```
+
+Replace all occurrences
+
+```bash
+sed 's/Linux/Ubuntu/g' file.txt
+```
 
 ---
 
@@ -415,49 +643,43 @@ linux-practice
 
 # Commands Learned
 
-| Command | Description |
-|----------|-------------|
-| `pwd` | Show the current working directory |
-| `ls` | List directory contents |
-| `ls -a` | Show all files, including hidden files |
-| `ls -l` | Show detailed file information |
-| `cd` | Change the current directory |
-| `mkdir` | Create a directory |
-| `touch` | Create an empty file |
-| `tree` | Display the directory tree |
-| `rm` | Remove a file |
-| `rmdir` | Remove an empty directory |
-| `rm -r` | Remove a directory recursively |
-| `rm -rf` | Force remove a directory and its contents |
-
----
-
-# Key Concepts Learned
-
-- Linux filesystem hierarchy
-- Home directory (`~`)
-- Current directory (`.`)
-- Parent directory (`..`)
-- Absolute paths
-- Relative paths
-- Hidden files
-- File permissions overview
-- Creating files and directories
-- Safe file and directory deletion
-- Organizing a workspace using the terminal
+| Category        | Commands                                    |          |
+| --------------- | ------------------------------------------- | -------- |
+| Navigation      | `pwd`, `cd`, `ls`, `tree`                   |          |
+| Paths           | `.`, `..`, `~`                              |          |
+| File Management | `mkdir`, `touch`, `cp`, `mv`, `rm`, `rmdir` |          |
+| File Inspection | `cat`, `less`, `head`, `tail`, `wc`, `file` |          |
+| Searching       | `find`, `grep`                              |          |
+| Text Processing | `cut`, `sort`, `uniq`, `awk`, `sed`         |          |
+| Shell Features  | `                                           | ` (Pipe) |
 
 ---
 
 # Skills Acquired
 
-After completing these lessons, I can:
+After completing Phase 1, I can:
 
-- Navigate the Linux filesystem confidently.
-- Understand where I am in the filesystem.
-- Create and organize directories.
-- Create files from the terminal.
-- Read detailed file information.
-- Understand basic Linux permissions.
-- Use absolute and relative paths correctly.
-- Remove files and directories safely.
-- Visualize directory structures using `tree`.
+* Navigate the Linux filesystem confidently.
+* Work with absolute and relative paths.
+* Create, copy, move, rename, and remove files and directories.
+* Read and inspect file contents efficiently.
+* Search for files and text from the terminal.
+* Combine commands using pipes.
+* Process structured text using Linux utilities.
+* Understand basic Linux permissions.
+* Use the terminal efficiently for everyday system administration tasks.
+
+---
+
+# Next Phase
+
+Phase 2 will focus on:
+
+* File Permissions in depth
+* Users and Groups
+* Ownership
+* Processes
+* Package Management
+* Environment Variables
+* Shell Basics
+* Bash Scripting
