@@ -71,7 +71,7 @@ For example:
 /home/hamad/Documents/report.pdf
 ```
 
-can be visualized like this:
+can be visualized like this
 
 ```text
 /
@@ -81,13 +81,13 @@ can be visualized like this:
             └── report.pdf
 ```
 
-Another example:
+Another example
 
 ```text
 /var/log/syslog
 ```
 
-becomes:
+becomes
 
 ```text
 /
