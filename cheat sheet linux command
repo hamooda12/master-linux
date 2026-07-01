@@ -1,497 +1,239 @@
 # Linux Cheat Sheet
 
-> Personal Linux reference built during my **Linux Mastery Journey**.
->
-> **Last Updated:** Lesson 5 – Wildcards & Searching
+> Personal Linux command reference built during the Linux Practice journey.
+
+**Current Coverage:** Chapter 01 — Linux Filesystem Fundamentals
 
 ---
 
-# Navigation
+# Filesystem Navigation
 
-| Command    | Description                         | Example          |
-| ---------- | ----------------------------------- | ---------------- |
-| `pwd`      | Print the current working directory | `pwd`            |
-| `cd <dir>` | Change directory                    | `cd Documents`   |
-| `cd ..`    | Go to the parent directory          | `cd ..`          |
-| `cd ~`     | Go to the home directory            | `cd ~`           |
-| `cd`       | Same as `cd ~`                      | `cd`             |
-| `cd /path` | Navigate using an absolute path     | `cd /home/hamad` |
+| Command | Description | Example |
+|---|---|---|
+| `pwd` | Print current working directory | `pwd` |
+| `cd <dir>` | Change into a directory | `cd Documents` |
+| `cd ..` | Move to parent directory | `cd ..` |
+| `cd ~` | Go to home directory | `cd ~` |
+| `cd` | Go to home directory | `cd` |
+| `cd /` | Go to root directory | `cd /` |
 
 ---
 
 # Listing Files
 
-| Command  | Description                         | Example  |
-| -------- | ----------------------------------- | -------- |
-| `ls`     | List directory contents             | `ls`     |
-| `ls -a`  | Show hidden files                   | `ls -a`  |
-| `ls -l`  | Long listing format                 | `ls -l`  |
+| Command | Description | Example |
+|---|---|---|
+| `ls` | List visible files and directories | `ls` |
+| `ls -l` | Long listing format | `ls -l` |
+| `ls -a` | Show hidden files | `ls -a` |
 | `ls -la` | Long listing including hidden files | `ls -la` |
+| `ls -lh` | Human-readable sizes | `ls -lh` |
+| `ls -R` | Recursive listing | `ls -R` |
+| `ls -t` | Sort by modification time | `ls -t` |
+| `ls -li` | Show inode numbers | `ls -li` |
+| `ls -ld <dir>` | Show directory itself, not contents | `ls -ld /tmp` |
 
 ---
 
-# File & Directory Creation
-
-| Command           | Description                 | Example           |
-| ----------------- | --------------------------- | ----------------- |
-| `mkdir folder`    | Create a directory          | `mkdir project`   |
-| `mkdir dir1 dir2` | Create multiple directories | `mkdir docs logs` |
-| `touch file.txt`  | Create an empty file        | `touch notes.txt` |
-| `tree`            | Display directory tree      | `tree`            |
-
----
-
-# File & Directory Removal
-
-| Command         | Description                              | Example            |
-| --------------- | ---------------------------------------- | ------------------ |
-| `rm file.txt`   | Remove a file                            | `rm notes.txt`     |
-| `rmdir folder`  | Remove an empty directory                | `rmdir old-folder` |
-| `rm -r folder`  | Remove a directory recursively           | `rm -r backups`    |
-| `rm -rf folder` | Force remove recursively (**Dangerous**) | `rm -rf temp`      |
-
----
-
-# File Viewing & Inspection
-
-| Command          | Description                       | Example               |
-| ---------------- | --------------------------------- | --------------------- |
-| `cat file`       | Display the entire file           | `cat README.md`       |
-| `cat > file`     | Create a file from terminal input | `cat > notes.txt`     |
-| `less file`      | View large files interactively    | `less app.log`        |
-| `head file`      | Display the first 10 lines        | `head README.md`      |
-| `head -n N file` | Display the first N lines         | `head -n 5 README.md` |
-| `tail file`      | Display the last 10 lines         | `tail app.log`        |
-| `tail -n N file` | Display the last N lines          | `tail -n 20 app.log`  |
-| `tail -f file`   | Follow live updates               | `tail -f server.log`  |
-| `nl file`        | Display line numbers              | `nl config.conf`      |
-
----
-
-# Counting File Content
-
-| Command      | Description                   | Example           |
-| ------------ | ----------------------------- | ----------------- |
-| `wc file`    | Count lines, words, and bytes | `wc README.md`    |
-| `wc -l file` | Count lines                   | `wc -l README.md` |
-| `wc -w file` | Count words                   | `wc -w README.md` |
-| `wc -c file` | Count bytes                   | `wc -c README.md` |
-| `wc -m file` | Count characters              | `wc -m README.md` |
-
----
-
-# Comparing Files
-
-| Command            | Description       | Example                  |
-| ------------------ | ----------------- | ------------------------ |
-| `diff file1 file2` | Compare two files | `diff old.conf new.conf` |
-
----
-
-# Output Redirection
-
-| Symbol | Description                | Example                       |
-| ------ | -------------------------- | ----------------------------- |
-| `>`    | Overwrite file with output | `echo "Hello" > file.txt`     |
-| `>>`   | Append output to a file    | `echo "New Line" >> file.txt` |
-
----
-
-# Wildcards
-
-Wildcards are expanded by the shell before a command is executed.
-
-| Wildcard | Meaning                         | Example           |
-| -------- | ------------------------------- | ----------------- |
-| `*`      | Matches zero or more characters | `ls *.log`        |
-| `?`      | Matches exactly one character   | `ls file?.txt`    |
-| `[abc]`  | Match one character from a set  | `ls file[12].txt` |
-| `[1-5]`  | Match a character in a range    | `ls app[1-5].log` |
-
-### Examples
-
-```bash
-ls *.txt
-ls *.log
-ls app*
-ls *error*
-ls log?.txt
-ls app[12].log
-ls app[1-3].log
-```
-
----
-
-# Searching Files
-
-## find
-
-Search files and directories recursively.
-
-| Command                        | Description                              |
-| ------------------------------ | ---------------------------------------- |
-| `find .`                       | Search everything from current directory |
-| `find ~`                       | Search from home directory               |
-| `find . -name "file"`          | Search by exact filename                 |
-| `find . -name "*.txt"`         | Search by extension                      |
-| `find . -iname "*.txt"`        | Case-insensitive search                  |
-| `find . -type f`               | Find regular files                       |
-| `find . -type d`               | Find directories                         |
-| `find . -empty`                | Find empty files/directories             |
-| `find . -size +10M`            | Files larger than 10 MB                  |
-| `find . -size -1M`             | Files smaller than 1 MB                  |
-| `find . -mtime -1`             | Modified within the last day             |
-| `find . -mtime +30`            | Modified more than 30 days ago           |
-| `find . -name "*.tmp" -delete` | Delete matching files                    |
-
-> **Tip:** Always quote wildcard patterns when using `find`.
-
-Example:
-
-```bash
-find . -name "*.log"
-```
-
----
-
-## locate
-
-Search using a prebuilt database.
-
-```bash
-locate README.md
-```
-
-Update the database:
-
-```bash
-sudo updatedb
-```
-
-Install if needed:
-
-```bash
-sudo apt install locate
-```
-
----
-
-# Text Processing
+# Creating Files and Directories
 
 | Command | Description | Example |
-|----------|-------------|---------|
-| `grep "text" file` | Search for matching text | `grep IT employees.txt` |
-| `grep -i` | Ignore case | `grep -i ahmed employees.txt` |
-| `grep -n` | Show line numbers | `grep -n HR employees.txt` |
-| `grep -c` | Count matching lines | `grep -c IT employees.txt` |
-| `sort` | Sort lines alphabetically | `sort employees.txt` |
-| `sort -r` | Reverse sort | `sort -r employees.txt` |
-| `sort -n` | Sort numbers numerically | `sort -n numbers.txt` |
-| `uniq` | Remove adjacent duplicate lines | `sort file.txt \| uniq` |
-| `uniq -c` | Count duplicate lines | `sort file.txt \| uniq -c` |
-| `cut -d " " -f2` | Extract a field using a delimiter | `cut -d " " -f2 employees.txt` |
-| `cut -d "," -f3` | Extract CSV columns | `cut -d "," -f3 users.csv` |
-| `tr a-z A-Z` | Convert lowercase to uppercase | `echo hello \| tr a-z A-Z` |
-| `tr A-Z a-z` | Convert uppercase to lowercase | `echo HELLO \| tr A-Z a-z` |
-| `tr -d 0-9` | Delete characters | `echo abc123 \| tr -d 0-9` |
-| `tee file` | Display output and save it | `ls \| tee files.txt` |
-| `tee -a file` | Append output to a file | `ls \| tee -a files.txt` |
-| `\|` | Pipe output to another command | `grep ERROR log.txt \| sort` |
-
----
-## which
-
-Show the executable path of a command.
-
-```bash
-which git
-which bash
-which python3
-```
+|---|---|---|
+| `mkdir <dir>` | Create directory | `mkdir projects` |
+| `mkdir -p <path>` | Create nested directories | `mkdir -p app/src/config` |
+| `touch <file>` | Create empty file or update timestamp | `touch notes.txt` |
+| `touch file1 file2` | Create multiple files | `touch a.txt b.txt` |
 
 ---
 
-## whereis
+# Copying, Moving, and Renaming
 
-Show executable, source files, and manual pages.
-
-```bash
-whereis bash
-whereis git
-```
-
----
-
-# Path Symbols
-
-| Symbol | Meaning           |
-| ------ | ----------------- |
-| `/`    | Root directory    |
-| `~`    | Home directory    |
-| `.`    | Current directory |
-| `..`   | Parent directory  |
+| Command | Description | Example |
+|---|---|---|
+| `cp source destination` | Copy file | `cp notes.txt backup.txt` |
+| `cp file dir/` | Copy file into directory | `cp notes.txt backups/` |
+| `cp -r dir copy` | Copy directory recursively | `cp -r project project-copy` |
+| `mv file dir/` | Move file | `mv notes.txt docs/` |
+| `mv old new` | Rename file or directory | `mv old.txt new.txt` |
 
 ---
 
-# Path Types
+# Deleting Files and Directories
 
-## Absolute Path
+| Command | Description | Example |
+|---|---|---|
+| `rm file` | Remove file | `rm notes.txt` |
+| `rm file1 file2` | Remove multiple files | `rm a.txt b.txt` |
+| `rm -r dir` | Remove directory and contents | `rm -r old-project` |
+| `rm -f file` | Force remove file | `rm -f notes.txt` |
+| `rm -rf dir` | Force remove directory recursively | `rm -rf temp/` |
+| `rmdir dir` | Remove empty directory | `rmdir empty-folder` |
 
-Starts from the root directory.
+> Be careful with `rm -rf`. Always verify your path first using `pwd` and `ls`.
 
-Example:
+---
+
+# Viewing File Contents
+
+| Command | Description | Example |
+|---|---|---|
+| `cat file` | Display entire file | `cat README.md` |
+| `less file` | View file page by page | `less /etc/services` |
+| `head file` | Show first 10 lines | `head notes.txt` |
+| `head -n 5 file` | Show first 5 lines | `head -n 5 notes.txt` |
+| `tail file` | Show last 10 lines | `tail app.log` |
+| `tail -n 20 file` | Show last 20 lines | `tail -n 20 app.log` |
+| `tail -f file` | Follow file updates live | `tail -f /var/log/syslog` |
+
+---
+
+# Searching Files and Directories
+
+| Command | Description | Example |
+|---|---|---|
+| `find . -name "file"` | Find by exact name | `find . -name "README.md"` |
+| `find . -iname "file"` | Case-insensitive search | `find . -iname "readme.md"` |
+| `find . -type f` | Find regular files | `find . -type f` |
+| `find . -type d` | Find directories | `find . -type d` |
+| `find . -name "*.md"` | Find by extension | `find . -name "*.md"` |
+| `find / -name "file"` | Search from root | `find / -name "sshd_config"` |
+
+---
+
+# Wildcards / Globbing
+
+| Pattern | Description | Example |
+|---|---|---|
+| `*` | Match zero or more characters | `ls *.txt` |
+| `?` | Match exactly one character | `ls file?.txt` |
+| `[abc]` | Match one character from set | `ls file[123].txt` |
+| `[1-5]` | Match one character in range | `ls file[1-5].txt` |
+
+---
+
+# Command History and Completion
+
+| Command / Key | Description | Example |
+|---|---|---|
+| `history` | Show command history | `history` |
+| `!!` | Run previous command | `!!` |
+| `!number` | Run command by history number | `!42` |
+| `Ctrl + R` | Search command history | Press `Ctrl + R` |
+| `Tab` | Auto-complete command/path | `cd Doc<Tab>` |
+
+---
+
+# Help and Documentation
+
+| Command | Description | Example |
+|---|---|---|
+| `man command` | Open manual page | `man ls` |
+| `command --help` | Quick help output | `ls --help` |
+| `apropos keyword` | Search manual database | `apropos copy` |
+| `/text` inside `man` | Search inside manual page | `/recursive` |
+| `q` inside `man` or `less` | Quit viewer | `q` |
+
+---
+
+# Permissions
+
+| Symbol | Meaning |
+|---|---|
+| `r` | Read |
+| `w` | Write |
+| `x` | Execute |
+| `-` | No permission |
+
+Permission groups:
 
 ```text
-/home/hamad/linux-practice/projects
-```
-
-## Relative Path
-
-Starts from the current directory.
-
-Example:
-
-```text
-projects/project1
+owner   group   others
+rwx     r-x     r--
 ```
 
 ---
 
-# Hidden Files
+# `chmod`
 
-Hidden files begin with a dot (`.`).
+| Command | Description | Example |
+|---|---|---|
+| `chmod u+x file` | Add execute for owner | `chmod u+x script.sh` |
+| `chmod g-w file` | Remove write from group | `chmod g-w notes.txt` |
+| `chmod a+r file` | Add read for everyone | `chmod a+r notes.txt` |
+| `chmod 644 file` | Owner read/write, others read | `chmod 644 README.md` |
+| `chmod 755 file` | Executable by everyone, writable by owner | `chmod 755 script.sh` |
+| `chmod 600 file` | Private file for owner only | `chmod 600 secret.txt` |
+
+---
+
+# Ownership
+
+| Command | Description | Example |
+|---|---|---|
+| `chown user file` | Change owner | `sudo chown root file.txt` |
+| `chown user:group file` | Change owner and group | `sudo chown root:root file.txt` |
+| `chown -R user:group dir` | Recursive ownership change | `sudo chown -R root:root project/` |
+| `chgrp group file` | Change group | `sudo chgrp developers file.txt` |
+
+---
+
+# Hard Links and Soft Links
+
+| Command | Description | Example |
+|---|---|---|
+| `ln file link` | Create hard link | `ln README.md README-hard.md` |
+| `ln -s target link` | Create symbolic link | `ln -s README.md README-soft.md` |
+| `ls -li` | View inode numbers | `ls -li` |
+| `ls -l` | View symbolic link target | `ls -l` |
+
+Key differences:
+
+| Feature | Hard Link | Symbolic Link |
+|---|---|---|
+| Shares inode | Yes | No |
+| Can break if target deleted | No | Yes |
+| Can link directories | Usually no | Yes |
+| Can cross filesystems | No | Yes |
+
+---
+
+# Special Permissions
+
+| Permission | Symbol | Numeric Prefix | Purpose |
+|---|---|---:|---|
+| SetUID | `s` on owner execute | `4` | Run executable as file owner |
+| SetGID | `s` on group execute | `2` | Inherit group on directories |
+| Sticky Bit | `t` on others execute | `1` | Prevent users deleting others' files in shared dirs |
 
 Examples:
 
-```text
-.bashrc
-.profile
-.config
-.ssh
-```
+| Command | Description |
+|---|---|
+| `chmod u+s file` | Enable SetUID |
+| `chmod g+s dir` | Enable SetGID |
+| `chmod +t dir` | Enable Sticky Bit |
+| `chmod 4755 file` | SetUID + 755 |
+| `chmod 2755 dir` | SetGID + 755 |
+| `chmod 1777 dir` | Sticky Bit + 777 |
 
-Display hidden files:
+Check `/tmp`:
 
 ```bash
-ls -a
+ls -ld /tmp
 ```
 
----
-
-# Permission Symbols
-
-| Symbol | Meaning      |
-| ------ | ------------ |
-| `r`    | Read         |
-| `w`    | Write        |
-| `x`    | Execute      |
-| `d`    | Directory    |
-| `-`    | Regular file |
-
-Permission layout:
+Expected style:
 
 ```text
-Owner | Group | Others
-
-rwx | r-x | r-x
+drwxrwxrwt
 ```
 
 ---
 
-# Common Workflow
-
-```bash
-pwd
-ls -la
-
-cd ~/linux-practice
-
-mkdir project
-cd project
-
-touch README.md
-
-cat > README.md
-
-Linux Practice Project
-
-Ctrl + D
-
-cat README.md
-head -5 README.md
-tail -5 README.md
-
-wc -l README.md
-nl README.md
-
-cp README.md README_backup.md
-
-echo "Version 2" >> README_backup.md
-
-diff README.md README_backup.md
-
-find . -name "*.md"
-
-tree
-```
-
----
-
-# Common DevOps Examples
-
-### Monitor application logs
-
-```bash
-tail -f application.log
-```
-
-### View system logs
-
-```bash
-less /var/log/syslog
-```
-
-### Count log entries
-
-```bash
-wc -l access.log
-```
-
-### Compare configuration files
-
-```bash
-diff nginx.conf nginx.conf.backup
-```
-
-### Search configuration files
-
-```bash
-find /etc -name "*.conf"
-```
-
-### Find Docker Compose files
-
-```bash
-find ~ -name "docker-compose.yml"
-```
-
-### Find Git executable
-
-```bash
-which git
-```
-
-### Find Bash executable and man page
-
-```bash
-whereis bash
-```
-
----
-
-# Safety Tips
-
-✅ Use `pwd` before deleting files.
-
-✅ Use `ls` before using `rm`.
-
-✅ Verify files before deleting them.
-
-✅ Test `find` before adding `-delete`.
-
-✅ Use `less` for large files.
-
-✅ Use `tail -f` for monitoring live logs.
-
-⚠ Never run:
-
-```bash
-rm -rf /
-```
-
-or
-
-```bash
-sudo rm -rf /
-```
-
-unless you intentionally want to destroy the system.
-
----
-
-# Commands Learned
-
-```text
-pwd
-
-cd
-
-ls
-ls -a
-ls -l
-ls -la
-
-mkdir
-
-touch
-
-tree
-
-rm
-rmdir
-rm -r
-rm -rf
-
-cat
-less
-
-head
-head -n
-
-tail
-tail -n
-tail -f
-
-wc
-wc -l
-wc -w
-wc -c
-wc -m
-
-nl
-
-diff
-
-find
-locate
-updatedb
-which
-whereis
-
-*
-?
-[]
-
->
->>
-```
-
----
-
-# Lesson Progress
-
-* ✅ Lesson 1 — Navigation & Filesystem Basics
-* ✅ Lesson 2 — Paths Deep Dive
-* ✅ Lesson 3 — File Operations
-* ✅ Lesson 4 — File Viewing & Inspection
-* ✅ Lesson 5 — Wildcards & Searching
-* ⏳ Lesson 6 — Text Processing
-* ⏳ Lesson 7 — File Editing
-* ⏳ Lesson 8 — Permissions
-* ⏳ Lesson 9 — Users & Groups
-* ⏳ Lesson 10 — Processes
-* ⏳ Lesson 11 — Package Management
-* ⏳ Lesson 12 — Networking
-* ⏳ Lesson 13 — Shell & Bash
-* ⏳ Lesson 14 — Automation & Scripting
-* ⏳ Lesson 15 — Linux for DevOps
+# Safety Rules
+
+- Always run `pwd` before destructive commands.
+- Always inspect with `ls` before deleting.
+- Avoid `chmod 777` unless you fully understand the risk.
+- Be careful with recursive commands such as `rm -rf`, `chmod -R`, and `chown -R`.
+- Use `man` and `--help` when unsure.
