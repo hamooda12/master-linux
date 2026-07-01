@@ -1,92 +1,61 @@
-# Chapter 02 -- Lesson 07
+# Chapter 02 -- Lesson 07 (Revised)
 
-# Input and Output Redirection
+# Input, Output, Error Redirection & `/dev/null`
 
-> **Topics Covered:** `>`, `>>`, `<`, `2>`, `2>>`, `&>`
+> **Topics Covered:** `>`, `>>`, `<`, `2>`, `2>>`, `2>&1`, `&>`,
+> `/dev/null`, `tee`
 
 ------------------------------------------------------------------------
 
 # Overview
 
-Every Linux command communicates using three standard streams:
+Every Linux program communicates using three standard streams:
 
--   **stdin (0)** -- Standard Input
--   **stdout (1)** -- Standard Output
--   **stderr (2)** -- Standard Error
+  Stream   Number   Purpose
+  -------- -------- ---------------
+  stdin    0        Input
+  stdout   1        Normal output
+  stderr   2        Error output
 
-Redirection lets you control where these streams come from and where
-they go. It is one of the most important Linux concepts because it forms
-the foundation of shell scripting, automation, and DevOps workflows.
-
-------------------------------------------------------------------------
-
-# Learning Objectives
-
-After this lesson you will be able to:
-
--   Redirect command output to files
--   Append output without overwriting
--   Redirect input from a file
--   Separate errors from normal output
--   Redirect both output and errors together
--   Understand the three standard streams
+Redirection lets you control these streams.
 
 ------------------------------------------------------------------------
 
-# Theory
-
-By default:
+# Standard Streams
 
 ``` text
-Keyboard ──> stdin ──> Program ──> stdout ──> Terminal
-                           │
-                           └──────────────> stderr ──> Terminal
-```
-
-Redirection changes these destinations.
-
-------------------------------------------------------------------------
-
-# Lab Setup
-
-``` bash
-mkdir -p ~/chapter02/lesson07
-cd ~/chapter02/lesson07
+Keyboard
+   │
+   ▼
+stdin (0)
+   │
+   ▼
+ Program
+  │    │
+  │    └──── stderr (2)
+  ▼
+stdout (1)
 ```
 
 ------------------------------------------------------------------------
 
-# Redirect Output (`>`)
+# Redirect Standard Output
 
-Overwrite a file with command output.
+Overwrite:
 
 ``` bash
-echo "Linux Practice" > notes.txt
+echo "Linux" > notes.txt
 ```
 
-Display the file:
+Append:
 
 ``` bash
-cat notes.txt
-```
-
-**Important:** If the file already exists, `>` replaces its contents.
-
-------------------------------------------------------------------------
-
-# Append Output (`>>`)
-
-Add new data without removing existing content.
-
-``` bash
-echo "Lesson 07" >> notes.txt
+echo "Practice" >> notes.txt
 ```
 
 ------------------------------------------------------------------------
 
-# Redirect Input (`<`)
-
-Read input from a file.
+# Redirect Standard Input
 
 ``` bash
 wc -l < notes.txt
@@ -94,112 +63,198 @@ wc -l < notes.txt
 
 ------------------------------------------------------------------------
 
-# Redirect Errors (`2>`)
-
-Store only error messages.
+# Redirect Errors
 
 ``` bash
-ls missing-file.txt 2> errors.log
+ls missing.txt 2> errors.log
 ```
 
-View the error:
+Append errors:
 
 ``` bash
-cat errors.log
-```
-
-------------------------------------------------------------------------
-
-# Append Errors (`2>>`)
-
-Append error messages instead of overwriting.
-
-``` bash
-ls missing1.txt 2>> errors.log
-ls missing2.txt 2>> errors.log
+ls missing.txt 2>> errors.log
 ```
 
 ------------------------------------------------------------------------
 
-# Redirect Both Output and Errors (`&>`)
-
-Save everything to one file.
-
-``` bash
-ls notes.txt missing.txt &> results.log
-```
-
-------------------------------------------------------------------------
-
-# Practical Scenario
-
-Save successful output while keeping errors separate.
+# Redirect stdout and stderr Separately
 
 ``` bash
 find /etc -name "*.conf" > configs.txt 2> errors.txt
 ```
 
-Now:
+------------------------------------------------------------------------
 
--   `configs.txt` contains matching files.
--   `errors.txt` contains permission errors.
+# Redirect stderr to stdout (`2>&1`)
+
+Normally:
+
+``` text
+stdout → terminal
+stderr → terminal
+```
+
+Combine both streams:
+
+``` bash
+find /etc -name "*.conf" > output.log 2>&1
+```
+
+Everything is written to `output.log`.
+
+> Order matters. `> output.log 2>&1` is not the same as
+> `2>&1 > output.log`.
+
+------------------------------------------------------------------------
+
+# Redirect Everything (`&>`)
+
+``` bash
+find /etc -name "*.conf" &> result.log
+```
+
+Equivalent to redirecting both stdout and stderr into one file.
+
+------------------------------------------------------------------------
+
+# The Special File: `/dev/null`
+
+`/dev/null` is often called the **black hole** of Linux.
+
+Anything written to it disappears permanently.
+
+Discard normal output:
+
+``` bash
+command > /dev/null
+```
+
+Discard errors:
+
+``` bash
+command 2> /dev/null
+```
+
+Discard everything:
+
+``` bash
+command &> /dev/null
+```
+
+Or:
+
+``` bash
+command > /dev/null 2>&1
+```
+
+------------------------------------------------------------------------
+
+# Why `/dev/null`?
+
+Sometimes you only care whether a command succeeds.
+
+Example:
+
+``` bash
+grep root /etc/passwd > /dev/null
+```
+
+No output is displayed, but the command's exit status is preserved.
+
+------------------------------------------------------------------------
+
+# Introducing `tee`
+
+Normally:
+
+``` bash
+ls > files.txt
+```
+
+You lose terminal output.
+
+With `tee`:
+
+``` bash
+ls | tee files.txt
+```
+
+The output is:
+
+-   Displayed on screen
+-   Saved into `files.txt`
+
+Append with:
+
+``` bash
+ls | tee -a files.txt
+```
+
+------------------------------------------------------------------------
+
+# Practical Scenarios
+
+Save successful output while hiding permission errors:
+
+``` bash
+find /etc -name "*.conf" 2> /dev/null
+```
+
+Create a report while viewing it:
+
+``` bash
+grep ERROR app.log | tee error-report.txt
+```
 
 ------------------------------------------------------------------------
 
 # Hands-on Lab
 
-1.  Create `notes.txt` with `>`.
-2.  Append three more lines using `>>`.
-3.  Count lines using `<`.
-4.  Generate an error with `ls missing.txt`.
-5.  Save the error using `2>`.
-6.  Save both output and errors using `&>`.
+1.  Create `notes.txt` using `>`.
+2.  Append data using `>>`.
+3.  Save errors into `errors.log`.
+4.  Combine stdout and stderr with `2>&1`.
+5.  Discard output using `/dev/null`.
+6.  Save and display output using `tee`.
 
 ------------------------------------------------------------------------
 
 # Challenge
 
-Create a script of commands that:
+Write one command that:
 
--   Creates a report.
--   Appends system information.
--   Saves errors separately.
--   Produces one combined log.
+-   Searches `/etc`
+-   Saves results
+-   Suppresses permission errors
+-   Displays the final report
 
 ------------------------------------------------------------------------
 
 # Common Mistakes
 
 -   Accidentally overwriting files with `>`.
--   Forgetting to use `>>` when appending.
--   Mixing normal output with errors.
--   Assuming `2>` captures normal output.
+-   Forgetting that `2>&1` depends on order.
+-   Assuming `/dev/null` stores data.
+-   Using `>` instead of `tee` when you also need terminal output.
 
 ------------------------------------------------------------------------
 
 # Best Practices
 
 -   Use `>>` for log files.
--   Keep errors in separate files when troubleshooting.
--   Double-check filenames before using `>`.
--   Redirect output instead of copying from the terminal.
+-   Use `/dev/null` to silence unwanted output.
+-   Use `tee` in scripts and troubleshooting.
+-   Keep stdout and stderr separate while debugging.
 
 ------------------------------------------------------------------------
 
 # Interview Questions
 
-1.  What is the difference between `>` and `>>`?
-2.  What does `2>` redirect?
-3.  What are stdin, stdout, and stderr?
-4.  When would you use `<`?
-5.  What does `&>` do?
-
-------------------------------------------------------------------------
-
-# Summary
-
-You learned how to control command input, output, and error streams
-using Linux redirection operators.
+1.  What are stdin, stdout, and stderr?
+2.  What does `2>&1` do?
+3.  What is `/dev/null`?
+4.  When would you use `tee`?
+5.  What is the difference between `>` and `tee`?
 
 ------------------------------------------------------------------------
 
@@ -211,31 +266,29 @@ command >> file
 command < file
 command 2> errors.log
 command 2>> errors.log
+command > output.log 2>&1
 command &> output.log
+command > /dev/null
+command 2> /dev/null
+command &> /dev/null
+
+command | tee file
+command | tee -a file
 ```
 
 ------------------------------------------------------------------------
 
 # Lab Assets
 
-Store screenshots in:
+Capture:
 
-``` text
-assets/chapter-02/
-```
-
-Recommended captures:
-
--   lesson-07-output-redirection.png
--   lesson-07-append.png
--   lesson-07-error-redirection.png
--   lesson-07-both-streams.png
+-   lesson-07-redirection.png
+-   lesson-07-dev-null.png
+-   lesson-07-tee.png
+-   lesson-07-stdout-stderr.png
 
 ------------------------------------------------------------------------
 
 # Next Lesson
 
-**Lesson 08 -- Pipes (`|`)**
-
-Learn how to connect commands together so the output of one command
-becomes the input of another.
+**Lesson 08 -- Pipes (Revised)**
