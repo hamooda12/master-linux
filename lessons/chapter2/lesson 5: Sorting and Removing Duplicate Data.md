@@ -279,6 +279,61 @@ Recommended captures:
 -   lesson-05-frequency-table.png
 
 ------------------------------------------------------------------------
+# Chapter 02 -- Lesson 05 (Revised)
+
+# Additional `sort` Features
+
+## Sort by Column
+
+``` bash
+sort -k2 scores.txt
+```
+
+Example:
+
+``` text
+Alice 90
+Bob 75
+Charlie 100
+```
+
+Sorts using the second column.
+
+------------------------------------------------------------------------
+
+## Remove Duplicates Directly
+
+``` bash
+sort -u names.txt
+```
+
+Equivalent to sorting and removing duplicates in one step.
+
+------------------------------------------------------------------------
+
+## Sort Human-Readable Sizes
+
+``` bash
+sort -h sizes.txt
+```
+
+Useful for values such as:
+
+``` text
+800K
+20M
+3G
+```
+
+------------------------------------------------------------------------
+
+## Real Example
+
+``` bash
+du -sh * | sort -h
+```
+
+Displays directories ordered by size.
 
 # Next Lesson
 
