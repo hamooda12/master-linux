@@ -251,7 +251,24 @@ Recommended captures:
 -   lesson-06-cmp-different.png
 
 ------------------------------------------------------------------------
+# Chapter 02 -- Lesson 06 (Revised)
 
+## Unified Diff
+
+The most common diff format today is the unified format.
+
+``` bash
+diff -u old.conf new.conf
+```
+
+This format is used by:
+
+-   Git
+-   Patch files
+-   Code reviews
+
+Unified diff shows surrounding context, making changes easier to
+understand than the default output.
 # Next Lesson
 
 **Lesson 07 -- Input and Output Redirection**
