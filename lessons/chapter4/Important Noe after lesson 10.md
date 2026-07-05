@@ -1,4 +1,4 @@
-systemctl daemon-reload tells systemd:
+# systemctl daemon-reload tells systemd:
 
 “Reload your service unit files because I edited one.”
 
@@ -23,3 +23,5 @@ sudo systemctl daemon-reload
 systemd reads the updated file and knows the new command:
 
 ExecStart=/usr/bin/npx serve -s build -l 3000
+
+# If a process is managed by systemd, manage it with systemctl, not kill, unless you have a very specific emergency reason.
