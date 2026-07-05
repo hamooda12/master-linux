@@ -1,286 +1,265 @@
+
 # 🐧 Linux Cheat Sheet
 
-> Personal Linux reference built throughout my Linux Practice journey.
+> **Personal Linux reference** built throughout my Linux Practice journey.
+>
+> **Current Progress:** ✅ Through **Chapter 04 – Process Management & System Services**
 
-**Current Progress:** Through **Chapter 04 -- Process Management &
-System Services**
+---
 
-------------------------------------------------------------------------
+# 🔥 Daily Commands (Most Used)
+
+```bash
+pwd
+ls -lah
+cd -
+find . -name "*.conf"
+grep -r "ERROR" .
+tail -f app.log
+ps aux
+systemctl status nginx
+journalctl -fu nginx
+```
+
+> 💡 **Remember**
+>
+> - `find` searches the filesystem.
+> - `grep` searches inside files.
+> - `locate` searches the indexed database.
+> - `which` finds the executable in your PATH.
+> - `whereis` finds binaries, source, and man pages.
+
+---
 
 # 📂 Navigation
 
-  Command   Description
-  --------- -------------------------
-  `pwd`     Print current directory
-  `ls`      List files
-  `ls -a`   Show hidden files
-  `ls -l`   Long listing
-  `tree`    Display directory tree
-  `cd`      Change directory
+| Command | Description | Example |
+|---------|-------------|---------|
+| `pwd` | Print current directory | `pwd` |
+| `ls` | List files | `ls` |
+| `ls -lah` | Long + hidden + human-readable | `ls -lah` |
+| `tree` | Display directory tree | `tree` |
+| `cd dir` | Change directory | `cd Documents` |
+| `cd ..` | Parent directory | `cd ..` |
+| `cd -` | Previous directory | `cd -` |
 
-------------------------------------------------------------------------
+---
 
 # 📁 File & Directory Operations
 
-  Command      Description
-  ------------ ---------------------------
-  `mkdir`      Create directory
-  `mkdir -p`   Create nested directories
-  `touch`      Create file
-  `cp`         Copy files
-  `mv`         Move/Rename
-  `rm`         Remove files
-  `rm -r`      Remove directories
-  `find`       Search files
-  `locate`     Fast file search
-  `which`      Locate executable
-  `whereis`    Locate binary/source/man
+| Command | Description |
+|---------|-------------|
+| `mkdir -p` | Create nested directories |
+| `touch` | Create empty file |
+| `cp -r` | Copy directory recursively |
+| `mv` | Move / rename |
+| `rm -r` | Remove directory recursively |
+| `find . -name "*.log"` | Search files |
+| `locate filename` | Fast indexed search |
+| `which command` | Locate executable |
+| `whereis command` | Locate binary, source & man page |
 
-------------------------------------------------------------------------
+---
 
 # 📄 File Viewing
 
-  Command     Description
-  ----------- ------------------
-  `cat`       Display file
-  `less`      Scroll file
-  `more`      Paginated output
-  `head`      First lines
-  `tail`      Last lines
-  `tail -f`   Follow log file
+| Command | Purpose |
+|---------|---------|
+| `cat` | Display entire file |
+| `less` | Scroll large files |
+| `head -20` | First 20 lines |
+| `tail -20` | Last 20 lines |
+| `tail -f` | Follow log in real time |
 
-------------------------------------------------------------------------
+---
 
 # 🔍 Text Processing
 
-  Command   Description
-  --------- -----------------------------
-  `grep`    Search text
-  `sort`    Sort lines
-  `uniq`    Remove duplicates
-  `cut`     Extract fields
-  `wc`      Count lines/words
-  `tr`      Translate/Delete characters
-  `awk`     Pattern scanning
-  `sed`     Stream editor
+| Command | Purpose |
+|---------|---------|
+| `grep` | Search text |
+| `sort` | Sort lines |
+| `uniq` | Remove adjacent duplicates *(usually after `sort`)* |
+| `cut` | Extract fields |
+| `wc` | Count lines, words & bytes |
+| `tr` | Translate/Delete characters |
+| `awk` | Field processing |
+| `sed` | Stream editor |
 
-------------------------------------------------------------------------
-
-# 🔗 Links
-
-  Command   Description
-  --------- ---------------
-  `ln`      Hard link
-  `ln -s`   Symbolic link
-
-------------------------------------------------------------------------
+---
 
 # 🔐 Permissions
 
-  Command   Description
-  --------- --------------------
-  `chmod`   Change permissions
-  `chown`   Change owner
-  `chgrp`   Change group
+| Command | Purpose |
+|---------|---------|
+| `chmod` | Change permissions |
+| `chown` | Change owner |
+| `chgrp` | Change group |
 
-------------------------------------------------------------------------
+Common:
+- `chmod 644 file`
+- `chmod 755 script.sh`
+- `chmod +x script.sh`
+
+---
 
 # 📦 Archives & Compression
 
--   `tar -cf archive.tar dir/`
--   `tar -tf archive.tar`
--   `tar -xf archive.tar`
--   `tar -czf archive.tar.gz dir/`
--   `tar -cjf archive.tar.bz2 dir/`
--   `tar -cJf archive.tar.xz dir/`
--   `gzip`, `gunzip`
--   `bzip2`, `bunzip2`
--   `xz`, `unxz`
--   `zip`, `unzip`
+| Task | Command |
+|------|---------|
+| Create tar | `tar -cf archive.tar dir/` |
+| List archive | `tar -tf archive.tar` |
+| Extract archive | `tar -xf archive.tar` |
+| Create gzip archive | `tar -czf archive.tar.gz dir/` |
+| Create bzip2 archive | `tar -cjf archive.tar.bz2 dir/` |
+| Create xz archive | `tar -cJf archive.tar.xz dir/` |
 
-------------------------------------------------------------------------
+Tools: `gzip`, `gunzip`, `bzip2`, `bunzip2`, `xz`, `unxz`, `zip`, `unzip`
+
+---
 
 # 🔐 Checksums
 
--   `sha256sum file`
--   `sha256sum file > file.sha256`
--   `sha256sum -c file.sha256`
+```bash
+sha256sum file
+sha256sum file > file.sha256
+sha256sum -c file.sha256
+```
 
-------------------------------------------------------------------------
+---
 
 # 💾 Backup Concepts
 
--   Archive
--   Compression
--   Full / Incremental / Differential Backup
--   3-2-1 Rule
--   RTO / RPO
+- Full Backup
+- Incremental Backup
+- Differential Backup
+- 3-2-1 Rule
+- RTO
+- RPO
 
-------------------------------------------------------------------------
+---
 
 # 🚀 Bash Essentials
 
--   Variables
--   Command substitution
--   Functions
--   if statements
--   case statements
--   Exit codes (`$?`)
+- Variables
+- Command substitution `$(...)`
+- Functions
+- `if`
+- `case`
+- Exit status `$?`
 
-------------------------------------------------------------------------
+---
 
 # ⚙️ Process Management
 
-## Monitoring
+### Monitor
+`ps` • `ps aux` • `ps -ef` • `top` • `htop` • `pstree`
 
--   `ps`
--   `ps aux`
--   `ps -ef`
--   `top`
--   `htop`
--   `pstree`
+### Control
+`kill` • `pkill` • `killall` • `kill -STOP` • `kill -CONT`
 
-## Control
+### Priority
+`nice` • `renice`
 
--   `kill PID`
--   `kill -9 PID`
--   `kill -STOP PID`
--   `kill -CONT PID`
--   `kill -l`
--   `pkill process`
--   `killall process`
-
-## Priority
-
--   `nice -n VALUE command`
--   `renice VALUE PID`
-
-------------------------------------------------------------------------
+---
 
 # 🛠️ Service Management
 
--   `systemctl status SERVICE`
--   `systemctl start SERVICE`
--   `systemctl stop SERVICE`
--   `systemctl restart SERVICE`
--   `systemctl reload SERVICE`
--   `systemctl enable SERVICE`
--   `systemctl disable SERVICE`
--   `systemctl is-active SERVICE`
--   `systemctl is-enabled SERVICE`
--   `systemctl list-units --type=service`
--   `systemctl list-unit-files --type=service`
+| Action | Command |
+|--------|---------|
+| Status | `systemctl status SERVICE` |
+| Start | `systemctl start SERVICE` |
+| Stop | `systemctl stop SERVICE` |
+| Restart | `systemctl restart SERVICE` |
+| Reload | `systemctl reload SERVICE` |
+| Enable | `systemctl enable SERVICE` |
+| Disable | `systemctl disable SERVICE` |
+| Active? | `systemctl is-active SERVICE` |
+| Enabled? | `systemctl is-enabled SERVICE` |
 
-------------------------------------------------------------------------
+---
 
 # 📜 System Logs
 
--   `journalctl`
--   `journalctl -n 20`
--   `journalctl -u SERVICE`
--   `journalctl -fu SERVICE`
--   `journalctl -f`
--   `journalctl -b`
--   `journalctl -b -1`
--   `journalctl --since today`
--   `journalctl --since "1 hour ago"`
--   `journalctl -p err`
+```bash
+journalctl
+journalctl -u SERVICE
+journalctl -fu SERVICE
+journalctl -b
+journalctl -b -1
+journalctl --since today
+journalctl --since "1 hour ago"
+journalctl -p err
+```
 
-------------------------------------------------------------------------
+---
 
 # 💼 Job Control
 
--   `command &`
--   `jobs`
--   `fg`
--   `bg`
--   `Ctrl + Z`
--   `kill %1`
+`command &` • `jobs` • `fg` • `bg` • `Ctrl+Z` • `kill %1`
 
-------------------------------------------------------------------------
+---
 
-# 🖥️ Long-Running Sessions
+# 🖥️ Persistent Sessions
 
-## nohup
+### nohup
+```bash
+nohup command > output.log 2>&1 &
+```
 
--   `nohup command &`
-
-## screen
-
--   `screen`
--   `screen -S session`
--   `screen -ls`
--   `screen -r session`
+### screen
+`screen` • `screen -S session` • `screen -ls` • `screen -r session`
 
 Detach: **Ctrl+A D**
 
-## tmux
-
--   `tmux`
--   `tmux new -s session`
--   `tmux ls`
--   `tmux attach -t session`
+### tmux
+`tmux new -s session` • `tmux ls` • `tmux attach -t session`
 
 Detach: **Ctrl+B D**
 
-------------------------------------------------------------------------
+---
 
-# 🚦 Linux Signals
+# 🚦 Common Linux Signals
 
-  Signal      Number Purpose
-  --------- -------- --------------------------------
-  SIGHUP           1 Hang up / reload configuration
-  SIGINT           2 Interrupt (`Ctrl+C`)
-  SIGKILL          9 Force terminate
-  SIGTERM         15 Graceful terminate
-  SIGCONT         18 Resume
-  SIGSTOP         19 Pause
+| Signal | No. | Purpose |
+|--------|----:|---------|
+| SIGHUP | 1 | Reload configuration |
+| SIGINT | 2 | Ctrl+C |
+| SIGKILL | 9 | Force kill *(cannot be caught)* |
+| SIGTERM | 15 | Graceful termination *(preferred)* |
+| SIGCONT | 18 | Resume |
+| SIGSTOP | 19 | Pause *(cannot be ignored)* |
 
-------------------------------------------------------------------------
+---
 
-# ⌨️ Keyboard Shortcuts
+# ⚡ Production Command Recipes
 
-  Shortcut   Action
-  ---------- -----------------
-  `Ctrl+C`   Send SIGINT
-  `Ctrl+Z`   Suspend process
-  `Ctrl+D`   Logout / EOF
-  `Ctrl+L`   Clear terminal
-
-------------------------------------------------------------------------
-
-# ⭐ Useful Combinations
-
-``` bash
+```bash
 ps aux | grep nginx
 systemctl status nginx
-journalctl -u nginx
 journalctl -fu nginx
+grep ERROR app.log | wc -l
+grep ERROR app.log | sort | uniq -c | sort -nr
+find . -type f | wc -l
+du -sh * | sort -h
 nohup ./backup.sh > backup.log 2>&1 &
-sleep 300 &
-jobs
 tmux new -s maintenance
 ```
 
-------------------------------------------------------------------------
+---
+
+# ⚠️ Common Mistakes
+
+- Running `rm -rf` without checking the path.
+- Using `kill -9` before trying `SIGTERM`.
+- Forgetting `sort` before `uniq`.
+- Using `cat` on huge log files instead of `less`.
+- Using `>` when you meant `>>`.
+
+---
 
 # 📌 Next Chapter
 
-**Chapter 05 -- Users, Groups & Permissions**
+## Chapter 05 – Users, Groups & Permissions
 
-Upcoming commands:
-
--   id
--   whoami
--   who
--   groups
--   useradd
--   usermod
--   userdel
--   passwd
--   groupadd
--   groupmod
--   groupdel
--   sudo
--   su
--   visudo
+`id` • `whoami` • `who` • `groups` • `useradd` • `usermod` • `userdel` • `passwd` • `groupadd` • `groupmod` • `groupdel` • `sudo` • `su` • `visudo`
