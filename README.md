@@ -6,7 +6,7 @@
 
 ![Linux](https://img.shields.io/badge/Linux-Ubuntu-E95420?logo=ubuntu&logoColor=white)
 ![Shell](https://img.shields.io/badge/Bash-Scripting-4EAA25?logo=gnubash&logoColor=white)
-![Progress](https://img.shields.io/badge/Progress-Chapter%2004-blue)
+![Progress](https://img.shields.io/badge/Progress-Chapter%2005-blue)
 ![License](https://img.shields.io/badge/License-MIT-success)
 
 </p>
@@ -86,7 +86,10 @@ Text Processing
 Archives & Backups ✅
         │
         ▼
-Process Management ⏳
+Process Management ✅
+        │
+        ▼
+Users & Permissions ⏳
         │
         ▼
 Users & Permissions
@@ -140,8 +143,8 @@ linux-practice/
 | ✅ 01 | Linux Essentials | Complete |
 | ✅ 02 | Files & Text Processing | Complete |
 | ✅ 03 | Archives, Compression & Backups | Complete |
-| 🚧 04 | Process Management & System Services | In Progress |
-| ⏳ 05 | Users, Groups & Permissions | Planned |
+| ✅ 04 | Process Management & System Services | Complete |
+| 🚧 05 | Users, Groups & Permissions | In Progress |
 | ⏳ 06 | Networking | Planned |
 | ⏳ 07 | Shell Scripting | Planned |
 | ⏳ 08 | System Administration | Planned |
@@ -280,7 +283,8 @@ assets/
 Chapter 01  ████████████████████ 100%
 Chapter 02  ████████████████████ 100%
 Chapter 03  ████████████████████ 100%
-Chapter 04  ████░░░░░░░░░░░░░░░░ 20%
+Chapter 04  ████████████████████ 100%
+Chapter 05  ████░░░░░░░░░░░░░░░░ 20%
 ```
 
 ---
