@@ -1,6 +1,6 @@
 # Chapter 05 --- Users, Groups & Permissions
 
-# Lesson 8 --- Managing Users
+# Lesson 5 --- Managing Users
 
 ## Overview
 
