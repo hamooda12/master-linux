@@ -144,53 +144,69 @@ Even if a user has:
 ``` text
 user:saeed:rw-
 ```
-
+``` text
 the effective permission becomes read-only because of the mask.
 You define the ACL mask with setfacl -m m:PERMS file.
-
+```
 Example:
 
+``` text
 setfacl -m m:r-- report.txt
+```
 
 This makes the maximum effective permission for named users/groups read-only.
 
 Example:
 
+``` text
 setfacl -m u:saeed:rw report.txt
 setfacl -m m:r-- report.txt
 getfacl report.txt
+```
 
 You may see:
 
+``` text
 user:saeed:rw-     #effective:r--
 mask::r--
+```
 
 So even though saeed has rw-, the mask limits him to r--.
 
 To allow read/write again:
 
+``` text
 setfacl -m m:rw- report.txt
+```
 
 Important:
 
+``` text
 setfacl -m m:rwx file
-
+```
 m means mask.
 
 So the pattern is:
 
+``` text
 setfacl -m m:PERMISSION file
+```
 
 Example permissions:
 
+
+``` text
 setfacl -m m:r-- file   # max read only
 setfacl -m m:rw- file   # max read/write
 setfacl -m m:r-x file   # max read/execute
 setfacl -m m:rwx file   # max read/write/execute
+```
 
 Think of the mask as:
 
+``` text
 “Even if ACL gives more, this is the maximum allowed.”
+```
 
 ------------------------------------------------------------------------
 
