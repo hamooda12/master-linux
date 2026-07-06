@@ -146,6 +146,51 @@ user:saeed:rw-
 ```
 
 the effective permission becomes read-only because of the mask.
+You define the ACL mask with setfacl -m m:PERMS file.
+
+Example:
+
+setfacl -m m:r-- report.txt
+
+This makes the maximum effective permission for named users/groups read-only.
+
+Example:
+
+setfacl -m u:saeed:rw report.txt
+setfacl -m m:r-- report.txt
+getfacl report.txt
+
+You may see:
+
+user:saeed:rw-     #effective:r--
+mask::r--
+
+So even though saeed has rw-, the mask limits him to r--.
+
+To allow read/write again:
+
+setfacl -m m:rw- report.txt
+
+Important:
+
+setfacl -m m:rwx file
+
+m means mask.
+
+So the pattern is:
+
+setfacl -m m:PERMISSION file
+
+Example permissions:
+
+setfacl -m m:r-- file   # max read only
+setfacl -m m:rw- file   # max read/write
+setfacl -m m:r-x file   # max read/execute
+setfacl -m m:rwx file   # max read/write/execute
+
+Think of the mask as:
+
+“Even if ACL gives more, this is the maximum allowed.”
 
 ------------------------------------------------------------------------
 
