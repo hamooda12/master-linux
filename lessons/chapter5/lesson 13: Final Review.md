@@ -12,16 +12,27 @@ lab and bootcamp.
   Topic                     Status
   ------------------------ --------
   Linux Users                 ✅
+  
   Linux Groups                ✅
+  
   Viewing Permissions         ✅
+  
   Creating Users              ✅
+  
   Managing Users              ✅
+  
   Managing Groups             ✅
+  
   Password Management         ✅
+  
   Account Database Files      ✅
+  
   umask                       ✅
+  
   ACL                         ✅
+  
   sudo & visudo               ✅
+  
   File Attributes             ✅
 
 ------------------------------------------------------------------------
