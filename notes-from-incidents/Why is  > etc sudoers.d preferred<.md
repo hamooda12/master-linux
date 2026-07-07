@@ -3,7 +3,9 @@
 Imagine your company has:
 
 10 junior administrators
+
 5 DevOps engineers
+
 3 database administrators
 
 If everyone edits /etc/sudoers, the file becomes:
@@ -31,10 +33,14 @@ Each file contains only the rules for that user or role, making management and a
 
 Rather than adding Noah's rules directly to /etc/sudoers, we would create a dedicated file such as:
 
-```text /etc/sudoers.d/noah ```
+```text 
+/etc/sudoers.d/noah
+```
 
 and edit it safely with:
 
-``` text sudo visudo -f /etc/sudoers.d/noah```
+``` text 
+sudo visudo -f /etc/sudoers.d/noah
+```
 
 This gives us the same syntax checking and file locking benefits while keeping the configuration modular.
