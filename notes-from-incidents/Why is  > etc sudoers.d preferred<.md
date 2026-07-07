@@ -1,4 +1,4 @@
-#why is /etc/sudoers.d/ preferred?
+# why is /etc/sudoers.d/ preferred?
 
 Imagine your company has:
 
@@ -13,6 +13,7 @@ difficult to audit
 prone to merge conflicts and accidental mistakes
 
 Instead, Linux allows you to keep the main file clean and place separate policies in individual files, for example:
+
 ``` text
 /etc/sudoers.d/
 ├── noah
@@ -23,6 +24,7 @@ Instead, Linux allows you to keep the main file clean and place separate policie
 ```
 
 Each file contains only the rules for that user or role, making management and auditing much easier.
+
 -------------------------------------------------------------------------------------------------------------------------------
 
 # What would we do in a real production environment?
