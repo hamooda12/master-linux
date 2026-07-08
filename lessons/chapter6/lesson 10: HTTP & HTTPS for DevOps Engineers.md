@@ -1,316 +1,426 @@
-# Chapter 06 — Networking Fundamentals
+# Chapter 06 --- Networking Fundamentals
 
-# Lesson 10 — HTTP & HTTPS for DevOps Engineers
+# Lesson 10 --- HTTP & HTTPS for DevOps Engineers (DevOps Deep Dive)
 
-> **Objective:** Understand how web applications communicate using HTTP and HTTPS, how browsers and servers exchange requests and responses, and why HTTPS is essential in production.
+> **Objective:** Master how HTTP and HTTPS really work from the moment a
+> user types a URL until a response is returned, and learn how to
+> troubleshoot production web applications.
 
----
+------------------------------------------------------------------------
 
-# Learning Objectives
+# Why This Lesson Matters
 
-By the end of this lesson you will be able to:
+Almost every DevOps engineer manages web applications.
 
-- Explain what HTTP and HTTPS are.
-- Understand the request/response model.
-- Identify common HTTP methods.
-- Interpret HTTP status codes.
-- Read HTTP headers.
-- Explain the role of TLS in HTTPS.
-- Use Linux tools to test HTTP services.
+Whether you deploy:
 
----
+-   Nginx
+-   Apache
+-   Spring Boot
+-   Node.js
+-   Laravel
+-   Kubernetes Ingress
+-   AWS Load Balancer
 
-# What Is HTTP?
+they all communicate using **HTTP or HTTPS**.
 
-HTTP (**HyperText Transfer Protocol**) is the protocol used by clients and servers to exchange web requests and responses.
+If you understand HTTP deeply, troubleshooting production systems
+becomes much easier.
 
-Example:
+------------------------------------------------------------------------
 
-```text
+# The Complete Journey
+
+When a user visits:
+
+``` text
+https://shop.example.com/products
+```
+
+the following happens:
+
+``` text
+User
+ │
+ │ 1. Enter URL
+ ▼
 Browser
-   │ HTTP Request
-   ▼
+ │
+ │ 2. DNS Lookup
+ ▼
+DNS Server
+ │
+ │ 3. Return IP Address
+ ▼
+Browser
+ │
+ │ 4. TCP Three-Way Handshake
+ ▼
 Web Server
-   │ HTTP Response
-   ▼
+ │
+ │ 5. TLS Handshake
+ ▼
+Secure Connection
+ │
+ │ 6. HTTP Request
+ ▼
+Nginx
+ │
+ │ 7. Reverse Proxy
+ ▼
+Spring Boot
+ │
+ │ 8. SQL Query
+ ▼
+PostgreSQL
+ │
+ │ 9. Response
+ ▼
 Browser
 ```
 
-HTTP is **application-layer** protocol and usually runs over **TCP**.
+Every production request follows roughly this sequence.
 
-Default port:
+------------------------------------------------------------------------
 
-```text
-80
+# HTTP Is an Application Layer Protocol
+
+HTTP defines **how applications exchange data**.
+
+It does **not** define:
+
+-   routing
+-   encryption
+-   reliability
+
+Instead it relies on lower layers.
+
+``` text
+HTTP
+↓
+
+TLS (HTTPS only)
+
+↓
+
+TCP
+
+↓
+
+IP
+
+↓
+
+Ethernet / Wi-Fi
 ```
 
----
+------------------------------------------------------------------------
 
-# What Is HTTPS?
+# HTTP Request Anatomy
 
-HTTPS is simply:
+``` http
+GET /products?page=2 HTTP/1.1
+Host: shop.example.com
+User-Agent: Mozilla/5.0
+Accept: application/json
+Authorization: Bearer TOKEN
 
-```text
-HTTP + TLS Encryption
+<optional body>
 ```
 
-Default port:
+Parts:
 
-```text
-443
+-   Method
+-   Path
+-   HTTP Version
+-   Headers
+-   Optional Body
+
+------------------------------------------------------------------------
+
+# HTTP Response Anatomy
+
+``` http
+HTTP/1.1 200 OK
+
+Content-Type: application/json
+Content-Length: 231
+Server: nginx
+
+{
+  "products": [...]
+}
 ```
 
-HTTPS provides:
+------------------------------------------------------------------------
 
-- Encryption
-- Authentication
-- Integrity
+# Common HTTP Methods
 
-Without HTTPS, anyone on the network could potentially read unencrypted traffic.
+  Method   Meaning          Idempotent?   Typical Use
+  -------- ---------------- ------------- -----------------
+  GET      Read             Yes           Fetch data
+  POST     Create           No            Create resource
+  PUT      Replace          Yes           Replace object
+  PATCH    Partial update   Usually       Update fields
+  DELETE   Remove           Yes           Delete resource
 
----
+------------------------------------------------------------------------
 
-# Request / Response Model
+# Understanding Status Codes Like a DevOps Engineer
 
-Every HTTP conversation follows the same pattern:
+## 2xx
 
-```text
-Client
-   │
-Request
-   ▼
-Server
-   │
-Response
-   ▼
-Client
-```
-
----
-
-# HTTP Methods
-
-| Method | Purpose |
-|---------|---------|
-| GET | Retrieve data |
-| POST | Create new data |
-| PUT | Replace existing data |
-| PATCH | Update part of existing data |
-| DELETE | Remove data |
+Request succeeded.
 
 Examples:
 
-```http
-GET /products
-```
+-   200 OK
+-   201 Created
+-   204 No Content
 
-```http
-POST /users
-```
+------------------------------------------------------------------------
 
----
+## 3xx
 
-# HTTP Status Codes
+Redirection.
 
-## 2xx – Success
+301 → permanent redirect
 
-```text
-200 OK
-201 Created
-204 No Content
-```
+302 → temporary redirect
 
-## 3xx – Redirection
+304 → browser cache still valid
 
-```text
-301 Moved Permanently
-302 Found
-304 Not Modified
-```
+------------------------------------------------------------------------
 
-## 4xx – Client Errors
+## 4xx
 
-```text
+The client did something wrong.
+
 400 Bad Request
+
 401 Unauthorized
+
+Authentication missing.
+
 403 Forbidden
+
+Authenticated but not allowed.
+
 404 Not Found
-```
 
-## 5xx – Server Errors
+Resource doesn't exist.
 
-```text
-500 Internal Server Error
-502 Bad Gateway
-503 Service Unavailable
-504 Gateway Timeout
-```
+------------------------------------------------------------------------
 
----
+## 5xx
 
-# HTTP Headers
+Server-side failures.
 
-Headers carry metadata.
+500
 
-Example request:
+Application crashed.
 
-```http
-GET / HTTP/1.1
-Host: example.com
-User-Agent: curl/8.0
-Accept: */*
-```
+502
 
-Example response:
+Gateway received invalid response from backend.
 
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 120
-Server: nginx
-```
+Usually:
 
----
+Browser → Nginx → Spring Boot
 
-# HTTPS and TLS
+Spring Boot crashed.
 
-Before HTTP data is exchanged over HTTPS:
+503
 
-1. TCP connection is established.
-2. TLS handshake occurs.
-3. Certificates are verified.
-4. Encryption keys are negotiated.
-5. Encrypted HTTP traffic begins.
+Service unavailable.
 
----
+Often:
 
-# Typical Production Flow
+-   maintenance
+-   overloaded
+-   no healthy pods
 
-```text
+504
+
+Gateway timeout.
+
+Backend took too long.
+
+------------------------------------------------------------------------
+
+# HTTP Headers Every DevOps Engineer Must Know
+
+## Host
+
+Determines which virtual host should serve the request.
+
+## Content-Type
+
+Tells how to interpret the body.
+
+Examples:
+
+-   application/json
+-   text/html
+-   multipart/form-data
+
+## Authorization
+
+Carries authentication credentials.
+
+## User-Agent
+
+Identifies the client.
+
+## Accept
+
+Specifies acceptable response formats.
+
+## Location
+
+Used in redirects.
+
+## Set-Cookie
+
+Creates browser cookies.
+
+## X-Forwarded-For
+
+Original client IP behind reverse proxies.
+
+## X-Forwarded-Proto
+
+Indicates whether the original request was HTTP or HTTPS.
+
+------------------------------------------------------------------------
+
+# What HTTPS Adds
+
+HTTPS = HTTP + TLS
+
+TLS provides:
+
+-   Encryption
+-   Authentication
+-   Integrity
+
+TLS handshake:
+
+1.  TCP connection
+2.  ClientHello
+3.  ServerHello
+4.  Certificate exchange
+5.  Certificate validation
+6.  Session keys created
+7.  Encrypted HTTP begins
+
+------------------------------------------------------------------------
+
+# TLS Termination
+
+``` text
 Browser
    │ HTTPS
    ▼
 Load Balancer
-   │ HTTPS or HTTP
+   │ HTTPS
    ▼
 Nginx
    │ HTTP
    ▼
 Spring Boot
-   │
-   ▼
-PostgreSQL
 ```
 
-Often TLS terminates at the load balancer or reverse proxy.
+The load balancer or reverse proxy often decrypts HTTPS and forwards
+plain HTTP internally.
 
----
+------------------------------------------------------------------------
 
-# Linux Tools
+# Real Production Troubleshooting
 
-Check HTTP headers:
+## Incident 1 --- 502 Bad Gateway
 
-```bash
-curl -I https://example.com
-```
+Symptoms:
 
-Verbose request:
-
-```bash
-curl -v https://example.com
-```
-
-Download page:
-
-```bash
-curl https://example.com
-```
-
----
-
-# DevOps Troubleshooting
-
-Problem:
-
-```text
-Users cannot access https://example.com
-```
+-   Nginx returns 502.
 
 Possible causes:
 
-- DNS failure
-- Port 443 closed
-- Firewall blocking HTTPS
-- TLS certificate expired
-- Nginx not listening
-- Backend unavailable
-- Load balancer unhealthy
+-   Backend process stopped.
+-   Wrong upstream port.
+-   Application crashed.
 
----
+Commands:
 
-# Hands-On Lab
-
-Run:
-
-```bash
-curl -I https://example.com
-curl -v https://example.com
-curl http://example.com
+``` bash
+systemctl status backend
+journalctl -u backend -n 50
+ss -tulpen
 ```
 
-Observe:
+------------------------------------------------------------------------
 
-- Status code
-- Headers
-- Redirects
-- TLS negotiation (verbose mode)
+## Incident 2 --- HTTPS Certificate Expired
 
----
+Symptoms:
 
-# Common Mistakes
+Browser displays security warning.
 
-- Confusing HTTP with HTTPS.
-- Assuming HTTPS means the application is secure.
-- Ignoring HTTP status codes.
-- Using HTTP in production for sensitive data.
+Check:
 
----
+``` bash
+openssl s_client -connect example.com:443
+```
 
-# Cheat Sheet
+------------------------------------------------------------------------
 
-| Item | Value |
-|------|-------|
-| HTTP Port | 80 |
-| HTTPS Port | 443 |
-| GET | Read |
-| POST | Create |
-| PUT | Replace |
-| PATCH | Update |
-| DELETE | Remove |
-| 200 | Success |
-| 404 | Not Found |
-| 500 | Server Error |
+## Incident 3 --- Infinite Redirect Loop
 
----
+Cause:
 
-# Interview Questions
+Nginx thinks requests are HTTP while the load balancer already
+terminated TLS.
 
-1. What is the difference between HTTP and HTTPS?
-2. Why does HTTPS require TLS?
-3. What is the default port for HTTPS?
-4. What does status code 404 mean?
-5. What command can test an HTTP endpoint from Linux?
+Check:
 
----
+-   X-Forwarded-Proto
+-   reverse proxy configuration
 
-# Summary
+------------------------------------------------------------------------
 
-HTTP defines how web clients and servers communicate.
+# Linux Commands
 
-HTTPS adds TLS encryption, authentication and integrity, making it the standard protocol for secure web communication in modern production environments.
+``` bash
+curl -I https://example.com
+curl -v https://example.com
+curl -L http://example.com
+openssl s_client -connect example.com:443
+ss -tulpen
+```
 
----
+------------------------------------------------------------------------
 
-# Next Lesson
+# DevOps Checklist
 
-**Lesson 12 — Firewalls: Allowing and Denying Network Traffic**
+When a website is down, verify in order:
+
+1.  DNS
+2.  TCP connectivity
+3.  Port 80/443
+4.  Firewall
+5.  TLS certificate
+6.  Reverse proxy
+7.  Backend application
+8.  Database
+9.  Logs
+
+------------------------------------------------------------------------
+
+# Key Takeaways
+
+-   HTTP is an application protocol.
+-   HTTPS is HTTP protected by TLS.
+-   Every request follows DNS → TCP → TLS → HTTP.
+-   Headers and status codes are critical troubleshooting tools.
+-   Most production outages involve reverse proxies, certificates,
+    networking, or backend availability---not HTTP itself.
