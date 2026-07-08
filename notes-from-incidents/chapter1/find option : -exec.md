@@ -32,13 +32,17 @@ put the found directory here
 So if find finds:
 
 /srv/techcorp/project-atlas
+
 /srv/techcorp/project-atlas/docs
+
 /srv/techcorp/project-atlas/releases
 
 It runs:
 
 chmod g+s /srv/techcorp/project-atlas
+
 chmod g+s /srv/techcorp/project-atlas/docs
+
 chmod g+s /srv/techcorp/project-atlas/releases
 
 And \; means:
@@ -59,7 +63,9 @@ sudo find /srv/techcorp/project-atlas -type d -exec chmod g+s {} \;
 Means:
 
 Inside /srv/techcorp/project-atlas,
+
 find directories only,
+
 then run chmod g+s on every directory found.
 
 # Important: -exec is not a normal Linux command. It is an option/action inside find.
