@@ -1,6 +1,6 @@
 # Chapter 06 — Networking Fundamentals
 
-# Lesson 11 — HTTP & HTTPS for DevOps Engineers
+# Lesson 10 — HTTP & HTTPS for DevOps Engineers
 
 > **Objective:** Understand how web applications communicate using HTTP and HTTPS, how browsers and servers exchange requests and responses, and why HTTPS is essential in production.
 
