@@ -40,11 +40,17 @@ getfacl file
   Command     Description                      Example
   ----------- -------------------------------- ----------------
   `pwd`       Print current directory          `pwd`
+  
   `ls`        List files                       `ls`
+  
   `ls -lah`   Long + hidden + human-readable   `ls -lah`
+  
   `tree`      Display directory tree           `tree`
+  
   `cd dir`    Change directory                 `cd Documents`
+  
   `cd ..`     Parent directory                 `cd ..`
+  
   `cd -`      Previous directory               `cd -`
 
 ------------------------------------------------------------------------
@@ -54,13 +60,21 @@ getfacl file
   Command                  Description
   ------------------------ ----------------------------------
   `mkdir -p`               Create nested directories
+  
   `touch`                  Create empty file
+  
   `cp -r`                  Copy directory recursively
+  
   `mv`                     Move / rename
+  
   `rm -r`                  Remove directory recursively
+  
   `find . -name "*.log"`   Search files
+  
   `locate filename`        Fast indexed search
+  
   `which command`          Locate executable
+  
   `whereis command`        Locate binary, source & man page
 
 ------------------------------------------------------------------------
@@ -70,9 +84,13 @@ getfacl file
   Command      Purpose
   ------------ -------------------------
   `cat`        Display entire file
+  
   `less`       Scroll large files
+  
   `head -20`   First 20 lines
+  
   `tail -20`   Last 20 lines
+  
   `tail -f`    Follow log in real time
 
 ------------------------------------------------------------------------
@@ -82,12 +100,19 @@ getfacl file
   Command   Purpose
   --------- -----------------------------
   `grep`    Search text
+  
   `sort`    Sort lines
+  
   `uniq`    Remove adjacent duplicates
+  
   `cut`     Extract fields
+  
   `wc`      Count lines, words & bytes
+  
   `tr`      Translate/Delete characters
+  
   `awk`     Field processing
+  
   `sed`     Stream editor
 
 ------------------------------------------------------------------------
@@ -99,9 +124,13 @@ getfacl file
   Command           Purpose
   ----------------- ---------------------
   `whoami`          Current user
+  
   `id`              UID, GID and groups
+  
   `groups`          Group membership
+  
   `getent passwd`   User database
+  
   `getent group`    Group database
 
 ## User Management
@@ -109,11 +138,17 @@ getfacl file
   Command       Purpose
   ------------- ----------------------
   `useradd`     Create user
+  
   `adduser`     Interactive creation
+  
   `usermod`     Modify user
+  
   `userdel`     Delete user
+  
   `passwd`      Change password
+  
   `passwd -S`   Password status
+  
   `chage`       Password aging
 
 ## Group Management
@@ -121,8 +156,11 @@ getfacl file
   Command      Purpose
   ------------ ----------------
   `groupadd`   Create group
+  
   `groupmod`   Modify group
+  
   `groupdel`   Delete group
+  
   `gpasswd`    Manage members
 
 ------------------------------------------------------------------------
@@ -132,18 +170,27 @@ getfacl file
   Command      Purpose
   ------------ --------------------------
   `chmod`      Change permissions
+  
   `chown`      Change owner
+  
   `chgrp`      Change group
+  
   `umask`      Default permissions
+  
   `stat`       File metadata
+  
   `namei -l`   Inspect path permissions
 
 Common Modes
 
 -   `600` Private file
+-   
 -   `644` Regular file
+-   
 -   `700` Private directory
+-   
 -   `755` Executable / directory
+-   
 -   `775` Shared project directory
 
 ------------------------------------------------------------------------
@@ -153,6 +200,7 @@ Common Modes
   Command     Purpose
   ----------- ------------
   `getfacl`   View ACL
+  
   `setfacl`   Manage ACL
 
 ------------------------------------------------------------------------
@@ -162,8 +210,11 @@ Common Modes
   Command     Purpose
   ----------- --------------------------
   `sudo`      Run as another user
+  
   `sudo -l`   List allowed commands
+  
   `sudo -k`   Clear cached credentials
+  
   `visudo`    Edit sudoers safely
 
 ------------------------------------------------------------------------
@@ -173,14 +224,18 @@ Common Modes
   Command    Purpose
   ---------- -------------------
   `lsattr`   View attributes
+  
   `chattr`   Change attributes
 
 Examples
 
 ``` bash
 chattr +i file
+
 chattr -i file
+
 chattr +a logfile
+
 ```
 
 ------------------------------------------------------------------------
