@@ -98,10 +98,13 @@ interface.
 
   IP Address              MAC Address
   ----------------------- -----------------------------
-  Logical address         Physical hardware address
-  Used between networks   Used inside a local network
-  Can change              Usually fixed by hardware
-  Example: 192.168.1.20   Example: 08:00:27:4A:91:BC
+  Logical address         ----------------- Physical hardware address
+  
+  Used between networks   ----------------- Used inside a local network
+  
+  Can change              ----------------- Usually fixed by hardware
+  
+  Example: 192.168.1.20   ----------------- Example: 08:00:27:4A:91:BC
 
 Both are important but serve different purposes.
 
