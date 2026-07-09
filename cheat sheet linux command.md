@@ -193,7 +193,9 @@ Common modes:
   Command          Purpose
   ---------------- --------------------
   `ip link`        Show interfaces
+  
   `ip addr`        Show IP addresses
+  
   `ip addr show`   Detailed addresses
 
 ## Routing
@@ -201,6 +203,7 @@ Common modes:
   Command           Purpose
   ----------------- --------------------
   `ip route`        Show routing table
+  
   `ip route show`   Display routes
 
 ## DNS
@@ -208,9 +211,13 @@ Common modes:
   Command                  Purpose
   ------------------------ -----------------
   `cat /etc/resolv.conf`   DNS servers
+  
   `host domain`            Simple lookup
+  
   `dig domain`             Detailed lookup
+  
   `nslookup domain`        DNS query
+  
   `hostname`               System hostname
 
 ## Connectivity
@@ -218,8 +225,11 @@ Common modes:
   Command             Purpose
   ------------------- ---------------------------
   `ping host`         Connectivity test
+  
   `traceroute host`   Show packet path
+  
   `tracepath host`    Trace route
+  
   `mtr host`          Continuous route analysis
 
 ## Ports & Sockets
@@ -227,9 +237,13 @@ Common modes:
   Command            Purpose
   ------------------ -------------------------
   `ss -tulpn`        Listening sockets
+  
   `ss -tan`          TCP connections
+  
   `ss -tp`           TCP with processes
+  
   `lsof -i`          Processes using sockets
+  
   `netstat -tulpn`   Legacy socket view
 
 ## Service Testing
@@ -237,11 +251,17 @@ Common modes:
   Command              Purpose
   -------------------- ------------------
   `curl URL`           Test HTTP/API
+  
   `curl -I URL`        Headers only
+  
   `curl -L URL`        Follow redirects
+  
   `wget URL`           Download file
+  
   `wget -O file URL`   Save with name
+  
   `nc -zv host port`   Test TCP port
+  
   `telnet host port`   Legacy TCP test
 
 ## SSH
@@ -249,10 +269,15 @@ Common modes:
   Command                   Purpose
   ------------------------- ----------------------
   `ssh user@host`           Remote login
+  
   `ssh -p PORT user@host`   Custom port
+  
   `ssh-keygen -t ed25519`   Generate key
+  
   `ssh-copy-id user@host`   Install public key
+  
   `scp`                     Secure copy
+  
   `sftp`                    Secure file transfer
 
 ## Firewall (UFW)
@@ -260,15 +285,25 @@ Common modes:
   Command                            Purpose
   ---------------------------------- ------------------
   `sudo ufw status`                  Firewall status
+  
   `sudo ufw status verbose`          Detailed status
+  
   `sudo ufw enable`                  Enable firewall
+  
   `sudo ufw disable`                 Disable firewall
+  
   `sudo ufw allow OpenSSH`           Allow SSH
+  
   `sudo ufw allow 80/tcp`            Allow HTTP
+  
   `sudo ufw allow 443/tcp`           Allow HTTPS
+  
   `sudo ufw deny PORT/tcp`           Block port
+  
   `sudo ufw delete allow PORT/tcp`   Delete rule
+  
   `sudo ufw status numbered`         Numbered rules
+  
   `sudo ufw app list`                App profiles
 
 ## Network Configuration
@@ -276,8 +311,11 @@ Common modes:
   Command                     Purpose
   --------------------------- ---------------------
   `ls /etc/netplan`           List Netplan files
+  
   `cat /etc/netplan/*.yaml`   View config
+  
   `sudo netplan try`          Test configuration
+  
   `sudo netplan apply`        Apply configuration
 
 ------------------------------------------------------------------------
