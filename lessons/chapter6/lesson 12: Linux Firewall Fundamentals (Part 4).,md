@@ -1,0 +1,279 @@
+# 📘 Chapter 06 --- Linux Networking Fundamentals
+
+# Lesson 12 --- Linux Firewall Fundamentals (Part 4)
+
+------------------------------------------------------------------------
+
+# Production Troubleshooting
+
+## Scenario 1 --- Service Is Running but Users Cannot Connect
+
+The application is listening:
+
+``` bash
+ss -tulpn
+```
+
+Output:
+
+``` text
+tcp LISTEN 0 128 0.0.0.0:8080
+```
+
+However, remote users cannot connect.
+
+Check the firewall:
+
+``` bash
+sudo ufw status
+```
+
+Result:
+
+``` text
+Status: active
+```
+
+No rule allows TCP port **8080**.
+
+### Root Cause
+
+The firewall is blocking incoming connections.
+
+------------------------------------------------------------------------
+
+## Scenario 2 --- SSH Locked Out
+
+An administrator enables UFW before allowing SSH.
+
+``` bash
+sudo ufw enable
+```
+
+Remote SSH sessions immediately fail.
+
+### Root Cause
+
+No firewall rule allows port **22/TCP**.
+
+Always allow SSH before enabling the firewall on a remote machine.
+
+------------------------------------------------------------------------
+
+## Scenario 3 --- Wrong Protocol
+
+The application communicates over UDP.
+
+Firewall rule:
+
+``` bash
+sudo ufw allow 53/tcp
+```
+
+Clients still fail.
+
+### Root Cause
+
+The wrong protocol was allowed.
+
+The correct rule is:
+
+``` bash
+sudo ufw allow 53/udp
+```
+
+------------------------------------------------------------------------
+
+## Scenario 4 --- Rule Removed Accidentally
+
+After deleting an old firewall rule, users lose access to the
+application.
+
+Running:
+
+``` bash
+sudo ufw status numbered
+```
+
+reveals the required rule no longer exists.
+
+Restoring the correct rule resolves the issue.
+
+------------------------------------------------------------------------
+
+# Troubleshooting Workflow
+
+``` text
+Verify application is running
+        │
+        ▼
+Verify listening socket (ss)
+        │
+        ▼
+Check firewall status (ufw)
+        │
+        ▼
+Verify correct port and protocol
+        │
+        ▼
+Test connectivity from a client
+```
+
+Always verify each layer before making changes.
+
+------------------------------------------------------------------------
+
+# Common Mistakes
+
+## Forgetting SSH Before Enabling UFW
+
+This is one of the most common mistakes on remote Linux servers.
+
+Always allow SSH first.
+
+------------------------------------------------------------------------
+
+## Allowing the Wrong Port
+
+Applications frequently use custom ports.
+
+Verify the listening port using:
+
+``` bash
+ss -tulpn
+```
+
+before creating firewall rules.
+
+------------------------------------------------------------------------
+
+## Confusing TCP and UDP
+
+Allowing TCP traffic does not automatically allow UDP traffic.
+
+Always verify which transport protocol the application uses.
+
+------------------------------------------------------------------------
+
+# Best Practices
+
+-   Enable the firewall on production servers.
+-   Allow only required services.
+-   Use predefined application profiles when available.
+-   Review firewall rules regularly.
+-   Test access after every firewall change.
+
+------------------------------------------------------------------------
+
+# Interview Questions
+
+## Beginner
+
+1.  What is a firewall?
+2.  What is UFW?
+3.  Why should SSH be allowed before enabling UFW?
+
+## Intermediate
+
+1.  Explain the difference between inbound and outbound traffic.
+2.  How do you allow HTTPS traffic using UFW?
+3.  How do you delete an existing firewall rule?
+
+## Advanced
+
+1.  A service is listening but unreachable. How would you determine
+    whether the firewall is responsible?
+2.  Why is a default-deny inbound policy considered a security best
+    practice?
+
+------------------------------------------------------------------------
+
+# Hands-on Lab
+
+Run:
+
+``` bash
+sudo ufw status
+```
+
+``` bash
+sudo ufw status verbose
+```
+
+``` bash
+sudo ufw app list
+```
+
+Answer:
+
+1.  Is the firewall active?
+2.  Which default policies are configured?
+3.  Which application profiles are available?
+4.  Which ports are currently allowed?
+
+------------------------------------------------------------------------
+
+# Challenge Exercise
+
+A Spring Boot application listens on port **8080**.
+
+`ss -tulpn` confirms the service is listening.
+
+`ping` succeeds.
+
+`curl http://localhost:8080` succeeds.
+
+Remote users still cannot connect.
+
+Design a troubleshooting plan using only:
+
+-   `ss`
+-   `ufw`
+-   `curl`
+-   `nc`
+
+Explain how each command helps identify the root cause.
+
+------------------------------------------------------------------------
+
+# Lesson Summary
+
+After completing Lesson 12 you understand:
+
+-   Firewall fundamentals
+-   Inbound and outbound traffic
+-   UFW
+-   Firewall rules
+-   Allowing and denying traffic
+-   Application profiles
+-   Firewall troubleshooting
+-   Secure firewall management practices
+
+These concepts provide the foundation for protecting Linux servers while
+allowing legitimate network traffic.
+
+------------------------------------------------------------------------
+
+# Cheat Sheet
+
+  Command                            Purpose
+  ---------------------------------- ---------------------------------------
+  `sudo ufw status`                  Display firewall status
+  `sudo ufw status verbose`          Display detailed firewall information
+  `sudo ufw enable`                  Enable the firewall
+  `sudo ufw disable`                 Disable the firewall
+  `sudo ufw allow 80/tcp`            Allow HTTP
+  `sudo ufw allow OpenSSH`           Allow SSH using application profile
+  `sudo ufw deny 8080/tcp`           Block a TCP port
+  `sudo ufw delete allow 8080/tcp`   Remove a firewall rule
+  `sudo ufw status numbered`         Display numbered rules
+  `sudo ufw app list`                List available application profiles
+
+------------------------------------------------------------------------
+
+# What's Next
+
+Continue with the remaining networking roadmap, beginning with **Network
+Configuration**, where you'll learn how Linux configures interfaces,
+assigns IP addresses (DHCP and static), manages DNS settings, and
+persists network configuration across reboots.
