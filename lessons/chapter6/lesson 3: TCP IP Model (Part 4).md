@@ -31,10 +31,15 @@ All of these applications communicate through this layer.
   Protocol   Purpose
   ---------- --------------------------
   HTTP       Web communication
+  
   HTTPS      Secure web communication
+  
   SSH        Remote server management
+  
   DNS        Domain name resolution
+  
   FTP        File transfer
+  
   SMTP       Email sending
 
 These protocols define **how** applications exchange information.
@@ -69,8 +74,11 @@ order.
   OSI                 TCP/IP
   ------------------- ---------------------
   7 Layers            4 Layers
+  
   Educational model   Practical model
+  
   Conceptual          Real implementation
+  
   More detailed       Simpler
 
 Both describe the same communication process.
