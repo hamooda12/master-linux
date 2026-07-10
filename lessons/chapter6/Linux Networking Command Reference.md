@@ -70,6 +70,7 @@ Shows all assigned IPv4 addresses.
 ``` bash
 nmcli device status
 nmcli connection show
+nmcli connection show "Office-Static"
 ```
 
 Shows NetworkManager device state.
