@@ -69,6 +69,7 @@ Shows all assigned IPv4 addresses.
 
 ``` bash
 nmcli device status
+nmcli connection show
 ```
 
 Shows NetworkManager device state.
