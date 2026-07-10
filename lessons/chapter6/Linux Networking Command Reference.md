@@ -1,23 +1,9 @@
-# 🐧 Linux Networking Command Reference (README)
+# 🐧 Linux Networking Command Reference v2.0
 
-> **Companion guide for Chapter 06 -- Linux Networking Fundamentals**
+> **Companion Guide for Chapter 06 -- Linux Networking Fundamentals**
 >
-> This document focuses on **how to use the networking commands** you
-> learned in the chapter. It is intended as a practical reference after
-> understanding the networking concepts.
-
-------------------------------------------------------------------------
-
-# 📋 Command Categories
-
--   Interface Inspection
--   IP Address Management
--   Routing
--   DNS
--   Connectivity Testing
--   Ports & Sockets
--   Network Statistics
--   ARP / Neighbor Cache
+> This reference covers the networking commands learned throughout
+> Chapter 06 and focuses on real Linux/DevOps troubleshooting.
 
 ------------------------------------------------------------------------
 
@@ -25,281 +11,227 @@
 
 ## `ip link`
 
-**Purpose**
-
-Display or manage network interfaces.
-
-**Common Usage**
+Purpose: Show or manage network interfaces.
 
 ``` bash
 ip link
 ip link show
 ip link show wlo1
+ip link set wlo1 up
+ip link set wlo1 down
 ```
 
-**Use When**
-
--   Listing interfaces
--   Checking interface names
--   Viewing interface state (UP/DOWN)
+Use for: - Verify interface exists - Check UP/DOWN state -
+Enable/disable interface
 
 ------------------------------------------------------------------------
 
 ## `ip addr`
 
-**Purpose**
-
-Display IP addresses assigned to interfaces.
-
-**Common Usage**
+Purpose: Show IP addresses.
 
 ``` bash
 ip addr
 ip addr show
 ip addr show wlo1
-```
-
-Shows:
-
--   IPv4
--   IPv6
--   Prefix length
--   Interface information
-
-------------------------------------------------------------------------
-
-# 🛰 IP Address Configuration
-
-## Add an IP
-
-``` bash
 sudo ip addr add 192.168.1.100/24 dev eth0
-```
-
-## Remove an IP
-
-``` bash
 sudo ip addr del 192.168.1.100/24 dev eth0
 ```
-
-> Temporary changes only.
 
 ------------------------------------------------------------------------
 
 # 🛣 Routing
 
-## Show routing table
+## `ip route`
 
 ``` bash
 ip route
+ip route add 10.20.0.0/16 via 192.168.1.254
+ip route add default via 192.168.1.1
+ip route del 10.20.0.0/16
+ip route get 8.8.8.8
 ```
 
-## Add a route
-
-``` bash
-sudo ip route add 10.20.0.0/16 via 192.168.1.254
-```
-
-## Add a default gateway
-
-``` bash
-sudo ip route add default via 192.168.1.1
-```
-
-## Delete a route
-
-``` bash
-sudo ip route del 10.20.0.0/16
-```
-
-------------------------------------------------------------------------
-
-# 🔎 DNS
-
-## Query DNS
-
-``` bash
-dig google.com
-dig google.com MX
-dig google.com TXT
-```
-
-## Simple lookup
-
-``` bash
-nslookup google.com
-```
-
-## Legacy lookup
-
-``` bash
-host google.com
-```
-
-## Resolver configuration
-
-``` bash
-cat /etc/resolv.conf
-```
-
-------------------------------------------------------------------------
-
-# 📡 Connectivity Testing
-
-## Ping
-
-``` bash
-ping google.com
-ping -c 4 google.com
-```
-
-## Trace packet path
-
-``` bash
-traceroute google.com
-```
-
-or
-
-``` bash
-tracepath google.com
-```
-
-------------------------------------------------------------------------
-
-# 🚪 Ports & Sockets
-
-## Display listening sockets
-
-``` bash
-ss -tuln
-```
-
-## Display processes
-
-``` bash
-ss -tulpn
-```
-
-Useful options:
-
--   `-t` TCP
--   `-u` UDP
--   `-l` Listening
--   `-n` Numeric
--   `-p` Process
-
-------------------------------------------------------------------------
-
-# 📈 Network Statistics
-
-## Interface statistics
-
-``` bash
-ip -s link
-```
-
-## Connection statistics
-
-``` bash
-ss -s
-```
+Important: - `dev` = outgoing interface - `via` = next-hop gateway -
+`scope link` = destination is directly reachable on this network -
+`default` = used when no more specific route exists
 
 ------------------------------------------------------------------------
 
 # 🤝 ARP / Neighbor Cache
 
-## Show neighbor table
-
 ``` bash
 ip neigh
-```
-
-## Flush cache
-
-``` bash
+ip neigh show
 sudo ip neigh flush all
 ```
 
+Use to: - View learned MAC addresses - Troubleshoot ARP failures
+
 ------------------------------------------------------------------------
 
-# 🛠 Troubleshooting Workflow
+# 🔎 DNS Investigation
 
-1.  Check interface
-
-``` bash
-ip link
-```
-
-2.  Check IP
+## dig
 
 ``` bash
-ip addr
+dig google.com
+dig google.com A
+dig google.com AAAA
+dig google.com MX
+dig google.com TXT
+dig google.com NS
+dig google.com SOA
+
+dig @8.8.8.8 google.com
+dig +short google.com
 ```
 
-3.  Check routing
+Useful fields: - QUESTION - ANSWER - TTL - SERVER - Query time
+
+------------------------------------------------------------------------
+
+## nslookup
 
 ``` bash
-ip route
+nslookup google.com
+nslookup google.com 8.8.8.8
 ```
 
-4.  Test gateway
+Shows: - DNS server used - IPv4 (A) - IPv6 (AAAA)
+
+------------------------------------------------------------------------
+
+## host
 
 ``` bash
-ping <gateway-ip>
+host google.com
+host -t MX google.com
+host -t TXT google.com
+host -t NS google.com
 ```
 
-5.  Test Internet
+Quick summary of common DNS records.
+
+------------------------------------------------------------------------
+
+## Resolver Configuration
 
 ``` bash
-ping 8.8.8.8
+cat /etc/resolv.conf
+resolvectl status
+resolvectl query google.com
 ```
 
-6.  Test DNS
+Know: - `127.0.0.53` = local systemd-resolved stub resolver -
+`resolvectl status` = real upstream DNS servers and DNS configuration
+
+------------------------------------------------------------------------
+
+# 📡 Connectivity
+
+## ping
 
 ``` bash
 ping google.com
-dig google.com
+ping 8.8.8.8
+ping -c 4 google.com
 ```
 
-7.  Check listening ports
+## tracepath
 
 ``` bash
+tracepath google.com
+```
+
+## traceroute
+
+``` bash
+traceroute google.com
+```
+
+Use to discover packet path.
+
+------------------------------------------------------------------------
+
+# 🚪 Ports & Sockets
+
+## ss
+
+``` bash
+ss -tuln
 ss -tulpn
+ss -tn
+ss -un
+ss -s
+```
+
+Flags:
+
+-   `-t` TCP
+-   `-u` UDP
+-   `-l` Listening
+-   `-p` Process
+-   `-n` Numeric
+
+------------------------------------------------------------------------
+
+# 📈 Network Statistics
+
+``` bash
+ip -s link
+ss -s
 ```
 
 ------------------------------------------------------------------------
 
-# ⚠ Common Mistakes
+# 🧠 Troubleshooting Workflow
 
--   Confusing **interface state** with **IP configuration**.
--   Adding routes with an unreachable gateway.
--   Forgetting that `ip` changes are temporary.
--   Assuming `localhost` tests external connectivity.
--   Reading `ip route` without identifying the matching destination
-    network.
-
-------------------------------------------------------------------------
-
-# 📚 Quick Cheat Sheet
-
-  Command        Purpose
-  -------------- -------------------------------
-  `ip link`      Network interfaces
-  `ip addr`      IP addresses
-  `ip route`     Routing table
-  `ip neigh`     ARP/neighbor cache
-  `ping`         Connectivity
-  `traceroute`   Packet path
-  `dig`          DNS queries
-  `nslookup`     DNS lookup
-  `ss -tulpn`    Listening ports and processes
-  `ip -s link`   Interface statistics
+``` text
+1. ip link
+2. ip addr
+3. ip route
+4. ip route get <destination>
+5. ip neigh
+6. ping <gateway>
+7. ping 8.8.8.8
+8. ping google.com
+9. dig / nslookup / host
+10. cat /etc/resolv.conf
+11. resolvectl status
+12. ss -tulpn
+13. ip -s link
+14. ss -s
+```
 
 ------------------------------------------------------------------------
 
-**Recommended Practice**
+# ⚡ Interview Notes
 
-Run every command on your own machine, change one thing at a time, and
-compare the output before and after. Understanding the output is more
-valuable than memorizing the command syntax.
+-   `dig` is preferred over `nslookup` for troubleshooting.
+-   `host` provides a concise DNS summary.
+-   `scope link` means the destination is directly reachable.
+-   `127.0.0.53` is not Google's DNS---it is Ubuntu's local DNS stub
+    resolver.
+-   `ip route get` reveals exactly which route Linux will use.
+
+------------------------------------------------------------------------
+
+# 🚀 Future DevOps Commands (Not Yet Covered)
+
+``` text
+curl
+wget
+tcpdump
+nmap
+nc
+mtr
+iperf3
+iftop
+ethtool
+nmcli
+journalctl -u systemd-resolved
+```
+
+These belong to later chapters and will be added after they are formally
+studied.
