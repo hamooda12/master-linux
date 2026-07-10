@@ -72,6 +72,8 @@ nmcli device status
 nmcli connection show
 nmcli connection show "Office-Static"
 sudo nmcli connection modify Office-Static ipv4.gateway "192.168.1.1"
+sudo nmcli connection modify "Office-Static" +ipv4.dns "192.168.50.10"
+sudo nmcli connection up "Office-Static"
 ```
 
 Shows NetworkManager device state.
