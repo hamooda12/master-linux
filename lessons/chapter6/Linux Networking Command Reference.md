@@ -1,130 +1,114 @@
-# 🐧 Linux Networking Command Reference v2.0
+# 🐧 Linux Networking Command Reference (Complete)
 
-> **Companion Guide for Chapter 06 -- Linux Networking Fundamentals**
->
-> This reference covers the networking commands learned throughout
-> Chapter 06 and focuses on real Linux/DevOps troubleshooting.
+> Companion guide for Chapter 06 --- Linux Networking Fundamentals
+
+This document summarizes **every command introduced in Chapter 06**.
 
 ------------------------------------------------------------------------
 
-# 🌐 Interface Inspection
+# 🖥 Host Information
 
-## `ip link`
+## hostname
 
-Purpose: Show or manage network interfaces.
+Show or temporarily change the hostname.
 
 ``` bash
-ip link
-ip link show
-ip link show wlo1
-ip link set wlo1 up
-ip link set wlo1 down
+hostname
+hostname new-host
 ```
 
-Use for: - Verify interface exists - Check UP/DOWN state -
-Enable/disable interface
+## hostnamectl
+
+Display or permanently manage hostname.
+
+``` bash
+hostnamectl
+hostnamectl set-hostname web01
+```
+
+## uname -a
+
+Display kernel and system information.
+
+``` bash
+uname -a
+```
 
 ------------------------------------------------------------------------
 
-## `ip addr`
+# 🌐 Network Interfaces
 
-Purpose: Show IP addresses.
+## ip addr
 
 ``` bash
 ip addr
 ip addr show
-ip addr show wlo1
+ip addr show eth0
 sudo ip addr add 192.168.1.100/24 dev eth0
 sudo ip addr del 192.168.1.100/24 dev eth0
 ```
+
+## ip link
+
+``` bash
+ip link
+ip link show
+sudo ip link set eth0 up
+sudo ip link set eth0 down
+```
+
+## hostname -I
+
+``` bash
+hostname -I
+```
+
+Shows all assigned IPv4 addresses.
+
+## nmcli device status
+
+``` bash
+nmcli device status
+```
+
+Shows NetworkManager device state.
+
+## ethtool
+
+``` bash
+sudo ethtool eth0
+```
+
+Shows NIC speed, duplex and link status.
 
 ------------------------------------------------------------------------
 
 # 🛣 Routing
 
-## `ip route`
+## ip route
 
 ``` bash
 ip route
 ip route add 10.20.0.0/16 via 192.168.1.254
 ip route add default via 192.168.1.1
 ip route del 10.20.0.0/16
+```
+
+## ip route get
+
+``` bash
 ip route get 8.8.8.8
 ```
 
-Important: - `dev` = outgoing interface - `via` = next-hop gateway -
-`scope link` = destination is directly reachable on this network -
-`default` = used when no more specific route exists
+Shows the exact route Linux will use.
 
-------------------------------------------------------------------------
-
-# 🤝 ARP / Neighbor Cache
+## route -n
 
 ``` bash
-ip neigh
-ip neigh show
-sudo ip neigh flush all
+route -n
 ```
 
-Use to: - View learned MAC addresses - Troubleshoot ARP failures
-
-------------------------------------------------------------------------
-
-# 🔎 DNS Investigation
-
-## dig
-
-``` bash
-dig google.com
-dig google.com A
-dig google.com AAAA
-dig google.com MX
-dig google.com TXT
-dig google.com NS
-dig google.com SOA
-
-dig @8.8.8.8 google.com
-dig +short google.com
-```
-
-Useful fields: - QUESTION - ANSWER - TTL - SERVER - Query time
-
-------------------------------------------------------------------------
-
-## nslookup
-
-``` bash
-nslookup google.com
-nslookup google.com 8.8.8.8
-```
-
-Shows: - DNS server used - IPv4 (A) - IPv6 (AAAA)
-
-------------------------------------------------------------------------
-
-## host
-
-``` bash
-host google.com
-host -t MX google.com
-host -t TXT google.com
-host -t NS google.com
-```
-
-Quick summary of common DNS records.
-
-------------------------------------------------------------------------
-
-## Resolver Configuration
-
-``` bash
-cat /etc/resolv.conf
-resolvectl status
-resolvectl query google.com
-```
-
-Know: - `127.0.0.53` = local systemd-resolved stub resolver -
-`resolvectl status` = real upstream DNS servers and DNS configuration
+Legacy routing table viewer.
 
 ------------------------------------------------------------------------
 
@@ -134,8 +118,7 @@ Know: - `127.0.0.53` = local systemd-resolved stub resolver -
 
 ``` bash
 ping google.com
-ping 8.8.8.8
-ping -c 4 google.com
+ping -c 4 8.8.8.8
 ```
 
 ## tracepath
@@ -150,7 +133,65 @@ tracepath google.com
 traceroute google.com
 ```
 
-Use to discover packet path.
+## arp
+
+``` bash
+arp
+arp -a
+```
+
+Legacy ARP table.
+
+## ip neigh
+
+``` bash
+ip neigh
+sudo ip neigh flush all
+```
+
+Modern ARP/Neighbor table.
+
+------------------------------------------------------------------------
+
+# 🔎 DNS
+
+## dig
+
+``` bash
+dig google.com
+dig google.com A
+dig google.com AAAA
+dig google.com MX
+dig google.com TXT
+dig google.com NS
+dig google.com SOA
+dig @8.8.8.8 google.com
+dig +short google.com
+```
+
+## host
+
+``` bash
+host google.com
+host -t MX google.com
+host -t TXT google.com
+```
+
+## nslookup
+
+``` bash
+nslookup google.com
+nslookup google.com 8.8.8.8
+```
+
+## Resolver
+
+``` bash
+cat /etc/resolv.conf
+resolvectl status
+resolvectl query google.com
+resolvectl flush-caches
+```
 
 ------------------------------------------------------------------------
 
@@ -166,72 +207,165 @@ ss -un
 ss -s
 ```
 
-Flags:
-
--   `-t` TCP
--   `-u` UDP
--   `-l` Listening
--   `-p` Process
--   `-n` Numeric
-
-------------------------------------------------------------------------
-
-# 📈 Network Statistics
+## lsof
 
 ``` bash
-ip -s link
-ss -s
+sudo lsof -i
+sudo lsof -i :80
 ```
 
 ------------------------------------------------------------------------
 
-# 🧠 Troubleshooting Workflow
+# 🧪 Testing Network Services
 
-``` text
-1. ip link
-2. ip addr
-3. ip route
-4. ip route get <destination>
-5. ip neigh
-6. ping <gateway>
-7. ping 8.8.8.8
-8. ping google.com
-9. dig / nslookup / host
-10. cat /etc/resolv.conf
-11. resolvectl status
-12. ss -tulpn
-13. ip -s link
-14. ss -s
+## curl
+
+``` bash
+curl http://localhost:8080
+curl -I https://example.com
+curl -v https://example.com
+curl -L https://example.com
+curl -X POST http://localhost/api -H "Content-Type: application/json" -d '{"name":"Alice"}'
+```
+
+## wget
+
+``` bash
+wget https://example.com/file.iso
+wget -O custom.iso https://example.com/file.iso
+wget -c https://example.com/file.iso
+```
+
+## nc (Netcat)
+
+``` bash
+nc -zv localhost 8080
+nc -zvu dns.google 53
+nc -l 9000
+```
+
+## telnet
+
+``` bash
+telnet google.com 80
+```
+
+## openssl s_client
+
+``` bash
+openssl s_client -connect google.com:443
+```
+
+Inspect TLS/SSL certificates.
+
+------------------------------------------------------------------------
+
+# 🔐 SSH
+
+## ssh
+
+``` bash
+ssh user@server
+ssh -p 2222 user@server
+```
+
+## scp
+
+``` bash
+scp file.txt user@server:/tmp
+scp user@server:/tmp/file.txt .
+```
+
+## sftp
+
+``` bash
+sftp user@server
+```
+
+## ssh-keygen
+
+``` bash
+ssh-keygen
+ssh-keygen -t ed25519
+```
+
+## SSH Service
+
+``` bash
+systemctl status ssh
+systemctl restart ssh
+journalctl -u ssh
 ```
 
 ------------------------------------------------------------------------
 
-# ⚡ Interview Notes
+# 🔥 Linux Firewall
 
--   `dig` is preferred over `nslookup` for troubleshooting.
--   `host` provides a concise DNS summary.
--   `scope link` means the destination is directly reachable.
--   `127.0.0.53` is not Google's DNS---it is Ubuntu's local DNS stub
-    resolver.
--   `ip route get` reveals exactly which route Linux will use.
+## UFW
+
+``` bash
+ufw status
+ufw status verbose
+sudo ufw enable
+sudo ufw disable
+sudo ufw reload
+sudo ufw allow 22/tcp
+sudo ufw deny 80/tcp
+sudo ufw delete allow 22/tcp
+```
+
+## iptables
+
+``` bash
+iptables -L
+iptables -L -n -v
+iptables -S
+iptables -F
+```
+
+## nftables
+
+``` bash
+nft list ruleset
+systemctl status nftables
+```
 
 ------------------------------------------------------------------------
 
-# 🚀 Future DevOps Commands (Not Yet Covered)
+# ⚙ Network Configuration
 
-``` text
-curl
-wget
-tcpdump
-nmap
-nc
-mtr
-iperf3
-iftop
-ethtool
+``` bash
 nmcli
-journalctl -u systemd-resolved
+nmcli device status
+ip addr
+ip route
+resolvectl status
+cat /etc/resolv.conf
 ```
 
-These belong to later chapters and will be added after they are formally
-studied.
+------------------------------------------------------------------------
+
+# 🚑 DevOps Troubleshooting Workflow
+
+``` text
+1. hostnamectl
+2. ip link
+3. ip addr
+4. hostname -I
+5. nmcli device status
+6. ethtool
+7. ip route
+8. ip route get <destination>
+9. ping
+10. tracepath / traceroute
+11. ip neigh
+12. dig / host / nslookup
+13. resolvectl status
+14. ss -tulpn
+15. lsof -i
+16. curl
+17. nc
+18. openssl s_client
+19. ssh
+20. ufw / iptables / nft
+```
