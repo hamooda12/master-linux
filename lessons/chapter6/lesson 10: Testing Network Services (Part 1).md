@@ -1,237 +1,155 @@
-# 🐧 Linux Networking Command Reference v2.0
+# 📘 Chapter 06 --- Linux Networking Fundamentals
 
-> **Companion Guide for Chapter 06 -- Linux Networking Fundamentals**
->
-> This reference covers the networking commands learned throughout
-> Chapter 06 and focuses on real Linux/DevOps troubleshooting.
+# Lesson 10 --- Testing Network Services (Part 1)
 
-------------------------------------------------------------------------
-
-# 🌐 Interface Inspection
-
-## `ip link`
-
-Purpose: Show or manage network interfaces.
-
-``` bash
-ip link
-ip link show
-ip link show wlo1
-ip link set wlo1 up
-ip link set wlo1 down
-```
-
-Use for: - Verify interface exists - Check UP/DOWN state -
-Enable/disable interface
+> **Goal:** Learn how Linux administrators verify that network services
+> are actually working by testing them from a client's perspective.
 
 ------------------------------------------------------------------------
 
-## `ip addr`
+# 📚 Overview
 
-Purpose: Show IP addresses.
+A server may be:
 
-``` bash
-ip addr
-ip addr show
-ip addr show wlo1
-sudo ip addr add 192.168.1.100/24 dev eth0
-sudo ip addr del 192.168.1.100/24 dev eth0
-```
+-   Powered on
+-   Connected to the network
+-   Reachable by ping
+-   Listening on the correct port
 
-------------------------------------------------------------------------
+...yet the application may still not work.
 
-# 🛣 Routing
+Instead of only checking the server itself, administrators test the
+service exactly as a client would.
 
-## `ip route`
+Linux provides several tools for this purpose:
 
-``` bash
-ip route
-ip route add 10.20.0.0/16 via 192.168.1.254
-ip route add default via 192.168.1.1
-ip route del 10.20.0.0/16
-ip route get 8.8.8.8
-```
+-   curl
+-   wget
+-   nc (Netcat)
+-   telnet
 
-Important: - `dev` = outgoing interface - `via` = next-hop gateway -
-`scope link` = destination is directly reachable on this network -
-`default` = used when no more specific route exists
+These tools help answer one simple question:
+
+> **"Can I successfully communicate with the service?"**
 
 ------------------------------------------------------------------------
 
-# 🤝 ARP / Neighbor Cache
+# 🎯 Learning Objectives
 
-``` bash
-ip neigh
-ip neigh show
-sudo ip neigh flush all
-```
+After this lesson you will be able to:
 
-Use to: - View learned MAC addresses - Troubleshoot ARP failures
-
-------------------------------------------------------------------------
-
-# 🔎 DNS Investigation
-
-## dig
-
-``` bash
-dig google.com
-dig google.com A
-dig google.com AAAA
-dig google.com MX
-dig google.com TXT
-dig google.com NS
-dig google.com SOA
-
-dig @8.8.8.8 google.com
-dig +short google.com
-```
-
-Useful fields: - QUESTION - ANSWER - TTL - SERVER - Query time
+-   Explain why service testing is important.
+-   Understand the difference between network connectivity and service
+    availability.
+-   Know when to use curl, wget, nc, and telnet.
+-   Test HTTP services and REST APIs from Linux.
 
 ------------------------------------------------------------------------
 
-## nslookup
+# 🌍 Connectivity vs Service Availability
 
-``` bash
-nslookup google.com
-nslookup google.com 8.8.8.8
-```
+A server responding to `ping` does **not** mean the application is
+working.
 
-Shows: - DNS server used - IPv4 (A) - IPv6 (AAAA)
+Example:
 
-------------------------------------------------------------------------
+    Laptop
+        |
+     ping ✓
+        |
+    Server
+        |
+    Spring Boot ✗
 
-## host
+The network is healthy, but the application has failed.
 
-``` bash
-host google.com
-host -t MX google.com
-host -t TXT google.com
-host -t NS google.com
-```
-
-Quick summary of common DNS records.
+Always test the service itself.
 
 ------------------------------------------------------------------------
 
-## Resolver Configuration
+# Why Test Services?
 
-``` bash
-cat /etc/resolv.conf
-resolvectl status
-resolvectl query google.com
-```
+Suppose users report:
 
-Know: - `127.0.0.53` = local systemd-resolved stub resolver -
-`resolvectl status` = real upstream DNS servers and DNS configuration
+    https://api.example.com
 
-------------------------------------------------------------------------
+is unavailable.
 
-# 📡 Connectivity
+Questions to answer:
 
-## ping
+-   Can the server be reached?
+-   Is the application listening?
+-   Does it return a valid response?
+-   Is the correct port open?
 
-``` bash
-ping google.com
-ping 8.8.8.8
-ping -c 4 google.com
-```
-
-## tracepath
-
-``` bash
-tracepath google.com
-```
-
-## traceroute
-
-``` bash
-traceroute google.com
-```
-
-Use to discover packet path.
+Service testing provides these answers.
 
 ------------------------------------------------------------------------
 
-# 🚪 Ports & Sockets
+# Common Service Testing Tools
 
-## ss
+  Tool     Primary Purpose
+  -------- -------------------------------
+  curl     Test HTTP/HTTPS APIs
+  wget     Download web resources
+  nc       Test TCP/UDP connectivity
+  telnet   Manual TCP connection testing
 
-``` bash
-ss -tuln
-ss -tulpn
-ss -tn
-ss -un
-ss -s
-```
-
-Flags:
-
--   `-t` TCP
--   `-u` UDP
--   `-l` Listening
--   `-p` Process
--   `-n` Numeric
+Each tool serves a different role.
 
 ------------------------------------------------------------------------
 
-# 📈 Network Statistics
+# Linux Perspective
 
-``` bash
-ip -s link
-ss -s
-```
+These tools behave like clients.
+
+Instead of inspecting the server internally, they attempt to communicate
+with it over the network.
+
+This closely matches the experience of real users.
 
 ------------------------------------------------------------------------
 
-# 🧠 Troubleshooting Workflow
+# Production Example
+
+A Spring Boot application appears healthy.
+
+The process is running.
+
+The port is listening.
+
+However, users still receive errors.
+
+Running:
+
+``` bash
+curl http://server:8080
+```
+
+returns:
 
 ``` text
-1. ip link
-2. ip addr
-3. ip route
-4. ip route get <destination>
-5. ip neigh
-6. ping <gateway>
-7. ping 8.8.8.8
-8. ping google.com
-9. dig / nslookup / host
-10. cat /etc/resolv.conf
-11. resolvectl status
-12. ss -tulpn
-13. ip -s link
-14. ss -s
+HTTP/1.1 500 Internal Server Error
 ```
+
+The networking is functioning correctly.
+
+The problem exists inside the application.
 
 ------------------------------------------------------------------------
 
-# ⚡ Interview Notes
+# Lesson Summary
 
--   `dig` is preferred over `nslookup` for troubleshooting.
--   `host` provides a concise DNS summary.
--   `scope link` means the destination is directly reachable.
--   `127.0.0.53` is not Google's DNS---it is Ubuntu's local DNS stub
-    resolver.
--   `ip route get` reveals exactly which route Linux will use.
+You learned:
+
+-   Why service testing matters.
+-   Connectivity vs application availability.
+-   The purpose of curl, wget, nc, and telnet.
+-   Why administrators test services from the client perspective.
 
 ------------------------------------------------------------------------
 
-# 🚀 Future DevOps Commands (Not Yet Covered)
+# ➡️ Next Part
 
-``` text
-curl
-wget
-tcpdump
-nmap
-nc
-mtr
-iperf3
-iftop
-ethtool
-nmcli
-journalctl -u systemd-resolved
-```
-
-These belong to later chapters and will be added after they are formally
-studied.
+We'll begin with the `curl` command and learn how Linux administrators
+test websites and REST APIs in production.
