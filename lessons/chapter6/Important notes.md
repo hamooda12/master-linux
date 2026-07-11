@@ -51,7 +51,14 @@ why ignore-auto-dns was necessary:
 ``` text
 sudo nmcli connection modify "Office-LAN" ipv4.ignore-auto-dns yes
 ```
+---
+# 4 - SOA serial number
 
+After changing a DNS record, increase the serial number so secondary DNS servers recognize that a newer zone version exists and perform a zone transfer.
+``` text
+2026071104 → 2026071105
+```
 
+Without increasing it, secondary servers may continue using the old DNS records. After editing, reload the DNS service so the primary server reads the updated zone file.
 Without it, NetworkManager could continue accepting 192.168.10.99 from DHCP and use it alongside—or ahead of—the manually configured server.
 
