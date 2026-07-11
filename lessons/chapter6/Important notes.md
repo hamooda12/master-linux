@@ -40,8 +40,8 @@ Here:
 ``` text
 no servers could be reached
 ```
-
-#3 - ignoe DNS
+---
+# 3 - ignoe DNS
 
 why ignore-auto-dns was necessary: 
 
