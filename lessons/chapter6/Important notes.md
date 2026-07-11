@@ -41,4 +41,15 @@ Here:
 no servers could be reached
 ```
 
+#3 - ignoe DNS
+
+why ignore-auto-dns was necessary: 
+
+``` text
+sudo nmcli connection modify "Office-LAN" ipv4.ignore-auto-dns yes
+```
+
+
+Without it, NetworkManager could continue accepting 192.168.10.99 from DHCP and use it alongside—or ahead of—the manually configured server.
+
 means DNS resolution itself is failing.
