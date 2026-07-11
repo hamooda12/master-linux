@@ -40,6 +40,9 @@ Here:
 ``` text
 no servers could be reached
 ```
+
+means DNS resolution itself is failing.
+
 ---
 # 3 - ignoe DNS
 
@@ -52,4 +55,3 @@ sudo nmcli connection modify "Office-LAN" ipv4.ignore-auto-dns yes
 
 Without it, NetworkManager could continue accepting 192.168.10.99 from DHCP and use it alongside—or ahead of—the manually configured server.
 
-means DNS resolution itself is failing.
