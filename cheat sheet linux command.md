@@ -44,28 +44,68 @@ getfacl file
   Command     Description
   ----------- -------------------------
   `pwd`       Print current directory
+  
   `ls -lah`   Long listing
+  
   `tree`      Directory tree
+  
   `cd -`      Previous directory
 
 ------------------------------------------------------------------------
 
 # 📁 File & Directory Operations
 
-`mkdir -p` • `touch` • `cp -r` • `mv` • `rm -r` • `find` • `locate` •
-`which` • `whereis`
+`mkdir -p`
+
+• `touch` 
+
+• `cp -r`
+
+• `mv` • 
+
+`rm -r` 
+
+• `find` 
+
+• `locate`
+
+•`which`
+
+• `whereis`
 
 ------------------------------------------------------------------------
 
 # 📄 File Viewing
 
-`cat` • `less` • `head` • `tail` • `tail -f`
+`cat` 
+
+• `less` 
+
+•`head` 
+
+• `tail`
+
+• `tail -f`
 
 ------------------------------------------------------------------------
 
 # 🔍 Text Processing
 
-`grep` • `sort` • `uniq` • `cut` • `wc` • `tr` • `awk` • `sed`
+`grep` 
+
+• `sort` 
+
+• `uniq` 
+
+• `cut` 
+
+• `wc` 
+
+• `tr` 
+
+• `awk` 
+
+• `sed`
 
 ------------------------------------------------------------------------
 
@@ -73,12 +113,27 @@ getfacl file
 
 ## User Management
 
-`useradd` • `adduser` • `usermod` • `userdel` • `passwd` • `passwd -S` •
-`chage`
+`useradd` 
+
+• `adduser` 
+
+• `usermod` 
+
+• `userdel` 
+
+• `passwd` 
+
+• `passwd -S` 
+
+•`chage`
 
 ## Group Management
 
-`groupadd` • `groupmod` • `groupdel` • `gpasswd`
+`groupadd`
+
+• `groupmod` 
+
+• `groupdel` • `gpasswd`
 
 ## Information
 
