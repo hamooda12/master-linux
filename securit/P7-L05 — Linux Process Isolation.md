@@ -13,7 +13,7 @@
 
 ## 1. Connection to the Previous Lesson
 
-In **P7-L08 — Linux Firewall Basics**, you learned that a firewall controls
+In **P7-L04 — Linux Firewall Basics**, you learned that a firewall controls
 which network traffic can reach a Linux system and its services.
 
 However, reaching a service is only one part of security.
